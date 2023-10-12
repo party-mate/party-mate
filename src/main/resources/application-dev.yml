@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/party_mate_dev_db?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: dev_user
+    password: 1234
+
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: com.example.partymate.domain.util.namestrategy.SnakeCasePhysicalNameStrategy
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
