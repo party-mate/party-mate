@@ -5,5 +5,5 @@ package com.example.partymate.domain.member;
  * @date : 2023-10-12
  */
 public enum Gender {
-    MAN, WOMAN
+    MALE, FEMALE
 }
