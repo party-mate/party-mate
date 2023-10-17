@@ -1,14 +1,20 @@
 package com.example.partymate.domain.member;
 
-import com.example.partymate.domain.util.Auditable;
-import com.example.partymate.domain.util.EntityListener;
+import com.example.partymate.domain.memberparty.MemberParty;
+import com.example.partymate.domain.util.BaseEntity;
+import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 /**
  * @author : Unagi_zoso
@@ -20,8 +26,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@EntityListeners(value = EntityListener.class)
-public class Member implements Auditable {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +36,13 @@ public class Member implements Auditable {
     private String password;
 
     @Column(length = 64, nullable = false)
-    private String email;
+    private String emailAddress;
 
-    @Column(length = 256, nullable = false)
+    @Column(length = 256)
     private String profileImageUrl;
+
+    @Column(length = 32, nullable = false)
+    private String phoneNumber;
 
     @Column(length = 32, nullable = false)
     private String nickname;
@@ -42,30 +50,29 @@ public class Member implements Auditable {
     @Column(length = 32, nullable = false)
     private String name;
 
-    @Column(length = 32, nullable = false)
-    private String phone;
-
+    // @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
 
-    @Column(nullable = false)
-    private LocalDateTime birthDateAndTime;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private List<MemberParty> memberPartyList;
+
+    // Role 엔티티 클래스 작성 후 활성화
+    // @OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
+    // private Role role;
 
     @Column(nullable = false)
-    private boolean agreeServiceFlag;
+    private LocalDateTime birthYearDate;
 
     @Column(nullable = false)
-    private boolean agreePrivacyFlag;
+    private Integer agreeServiceFlag;
 
     @Column(nullable = false)
-    private boolean agreeMarketingFlag;
+    private Integer agreePrivacyFlag;
 
     @Column(nullable = false)
-    private Integer erasedFlag;
+    private Integer agreeMarketingFlag;
 
     @Column(nullable = false)
-    LocalDateTime createdDateTime;
-
-    @Column(nullable = false)
-    LocalDateTime updatedDateTime;
+    private Integer erasedFlag; // integer 로 바꿔야하나.. 컨버터 써야할듯 하다
 }
