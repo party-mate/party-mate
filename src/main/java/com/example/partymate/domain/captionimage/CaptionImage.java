@@ -1,6 +1,6 @@
 package com.example.partymate.domain.captionimage;
 
-import com.example.partymate.domain.Post.Post;
+import com.example.partymate.domain.post.Post;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

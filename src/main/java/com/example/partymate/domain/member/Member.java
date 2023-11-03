@@ -1,8 +1,8 @@
 package com.example.partymate.domain.member;
 
 import com.example.partymate.domain.comment.Comment;
-import com.example.partymate.domain.Post.Post;
-import com.example.partymate.domain.Role.Role;
+import com.example.partymate.domain.post.Post;
+import com.example.partymate.domain.role.Role;
 import com.example.partymate.domain.memberparty.MemberParty;
 import com.example.partymate.domain.util.BaseEntity;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.example.partymate.domain.Post;
+package com.example.partymate.domain.post;
 
 import com.example.partymate.domain.comment.Comment;
 import com.example.partymate.domain.captionimage.CaptionImage;
@@ -60,3 +60,4 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<CaptionImage> captionImages;
 }
+

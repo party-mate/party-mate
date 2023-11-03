@@ -1,4 +1,4 @@
-package com.example.partymate.domain.Role;
+package com.example.partymate.domain.role;
 
 import com.example.partymate.domain.member.Member;
 import com.example.partymate.domain.util.BaseEntity;
@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,3 +37,4 @@ public class Role extends BaseEntity {
     @JoinColumn(name = "role")
     private Member member;
 }
+
