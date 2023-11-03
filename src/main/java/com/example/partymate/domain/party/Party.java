@@ -1,8 +1,7 @@
 package com.example.partymate.domain.party;
 
-import com.example.partymate.domain.Post.Post;
+import com.example.partymate.domain.post.Post;
 import com.example.partymate.domain.category.Category;
-import com.example.partymate.domain.member.Member;
 import com.example.partymate.domain.memberparty.MemberParty;
 import com.example.partymate.domain.util.BaseEntity;
 
