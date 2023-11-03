@@ -37,3 +37,4 @@ public class Role extends BaseEntity {
     @JoinColumn(name = "role")
     private Member member;
 }
+
