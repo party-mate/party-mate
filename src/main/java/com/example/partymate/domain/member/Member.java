@@ -1,8 +1,12 @@
 package com.example.partymate.domain.member;
 
+import com.example.partymate.domain.comment.Comment;
+import com.example.partymate.domain.post.Post;
+import com.example.partymate.domain.role.Role;
 import com.example.partymate.domain.memberparty.MemberParty;
 import com.example.partymate.domain.util.BaseEntity;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +35,7 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long memberId;
+    private Long memberId;
 
     @Column(length = 32, nullable = false)
     private String password;
@@ -50,16 +55,20 @@ public class Member extends BaseEntity {
     @Column(length = 32, nullable = false)
     private String name;
 
-    // @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
-    private List<MemberParty> memberPartyList;
+    private List<MemberParty> memberParties = new ArrayList<>();
 
-    // Role 엔티티 클래스 작성 후 활성화
-    // @OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
-    // private Role role;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
+    private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
 
     @Column(nullable = false)
     private LocalDateTime birthYearDate;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import static com.example.partymate.domain.member.MemberHelper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -22,37 +23,8 @@ class MemberRepositoryTest {
 
     @Test
     void test_saveMember() {
-        memberRepository.save(Member.builder()
-                .memberId(1)
-                .memberPartyList(null)
-                .agreeMarketingFlag(1)
-                .agreePrivacyFlag(1)
-                .agreeServiceFlag(1)
-                .birthYearDate(LocalDateTime.now())
-                .emailAddress("test@nyank.com")
-                .erasedFlag(0)
-                .gender(Gender.MALE)
-                .name("냑냑")
-                .nickname("냑지")
-                .password("1234")
-                .phoneNumber("010-1234-3456")
-                .profileImageUrl(null).build());
-
-        memberRepository.save(Member.builder()
-                .memberId(2)
-                .memberPartyList(null)
-                .agreeMarketingFlag(1)
-                .agreePrivacyFlag(1)
-                .agreeServiceFlag(1)
-                .birthYearDate(LocalDateTime.now())
-                .emailAddress("test@nyank.com")
-                .erasedFlag(0)
-                .gender(Gender.MALE)
-                .name("냑냑")
-                .nickname("냑지")
-                .password("1234")
-                .phoneNumber("010-1234-3456")
-                .profileImageUrl(null).build());
+        memberRepository.save(generateMember());
+        memberRepository.save(generateMember());
 
         int numOfAllMembers = memberRepository.findAll().size();
 
