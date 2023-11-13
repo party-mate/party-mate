@@ -1,16 +1,16 @@
 package com.example.partymate.model;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-10-12
+ * @author Unagi_zoso
+ * @since 2023-10-12
  */
 public enum GenderConstants {
     MALE("MALE"), FEMALE("FEMALE");
 
-    private final String string;
+    private final String gender;
 
-    GenderConstants(String string) {
-        this.string = string;
+    GenderConstants(String gender) {
+        this.gender = gender;
     }
 
     public static GenderConstants convertTo(String genderString) {
