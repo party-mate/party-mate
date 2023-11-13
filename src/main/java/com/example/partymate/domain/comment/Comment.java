@@ -1,6 +1,6 @@
 package com.example.partymate.domain.comment;
 
-import com.example.partymate.domain.Post.Post;
+import com.example.partymate.domain.post.Post;
 import com.example.partymate.domain.member.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
