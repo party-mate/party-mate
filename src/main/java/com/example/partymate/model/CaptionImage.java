@@ -1,7 +1,8 @@
 package com.example.partymate.model;
 
-import com.example.partymate.dto.CaptionImageSaveDto;
 import static javax.persistence.CascadeType.ALL;
+
+import com.example.partymate.dto.CaptionImageSaveDto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +16,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-10-17
+ * @author Unagi_zoso
+ * @since 2023-10-17
  */
 
 @Data

@@ -10,8 +10,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-10-13
+ * @author Unagi_zoso
+ * @since 2023-10-13
  */
 @Getter
 @MappedSuperclass
