@@ -1,9 +1,8 @@
 package com.example.partymate.config.auth;
 
-import com.example.partymate.domain.member.Member;
-import com.example.partymate.domain.member.MemberRepository;
+import com.example.partymate.repository.MemberRepository;
+import com.example.partymate.model.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     // security session(Authentication(UserDetails))
     @Override
