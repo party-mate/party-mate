@@ -7,11 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @author : JJDabean
- * @date : 2023-11-8
+ * @author JJDabean
+ * @since 2023-11-8
  */
 @RequiredArgsConstructor
 @Controller

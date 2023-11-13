@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * @author : JJDabean
- * @date: 2023-11-12
+ * @author JJDabean
+ * @since 2023-11-12
  */
 
 
@@ -20,7 +20,7 @@ import java.util.Collection;
 
 public class PrincipalDetails implements UserDetails {
 
-    private Member member;
+    private final Member member;
 //    private Role role;
 
     public PrincipalDetails(Member member){
@@ -32,13 +32,8 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collect = new ArrayList<>();
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return member.getNickname();
-            //    return role.getRoleName();
-            }
-        });
+        //    return role.getRoleName();
+        collect.add((GrantedAuthority) member::getNickname);
         return collect;
     }
 

@@ -5,8 +5,8 @@ import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-10-12
+ * @author Unagi_zoso
+ * @since 2023-10-12
  */
 public class SnakeCasePhysicalNameStrategy implements PhysicalNamingStrategy {
 

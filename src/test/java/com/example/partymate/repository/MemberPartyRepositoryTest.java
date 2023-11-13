@@ -22,8 +22,8 @@ import static com.example.partymate.testutils.PartyHelper.generateParty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-10-13
+ * @author Unagi_zoso
+ * @since 2023-10-13
  */
 @ActiveProfiles("local")
 @Import(TestConfig.class)

@@ -1,6 +1,5 @@
 package com.example.partymate.model;
 
-import javax.persistence.CascadeType;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +15,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-10-17
+ * @author Unagi_zoso
+ * @since 2023-10-17
  */
 
 @Data

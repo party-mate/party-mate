@@ -7,8 +7,8 @@ import static com.example.partymate.testutils.AgreementHelper.generateAgreement;
 import java.time.LocalDate;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-11-02
+ * @author Unagi_zoso
+ * @since 2023-11-02
  */
 public class MemberHelper {
     public static Member generateMember() {
@@ -32,14 +32,6 @@ class AgreementHelper {
                 .agreeMarketingFlag(1)
                 .agreePrivacyFlag(1)
                 .agreeServiceFlag(1)
-                .build();
-    }
-
-    public static Agreement generateAgreement(int agreementFlag, int privacyFlag, int serviceFlag) {
-        return Agreement.builder()
-                .agreeMarketingFlag(agreementFlag)
-                .agreePrivacyFlag(privacyFlag)
-                .agreeServiceFlag(serviceFlag)
                 .build();
     }
 }
