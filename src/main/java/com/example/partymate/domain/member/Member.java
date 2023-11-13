@@ -1,10 +1,12 @@
 package com.example.partymate.domain.member;
 
 import com.example.partymate.domain.comment.Comment;
-import com.example.partymate.domain.Post.Post;
-import com.example.partymate.domain.Role.Role;
+import com.example.partymate.domain.post.Post;
+import com.example.partymate.domain.role.Role;
 import com.example.partymate.domain.memberparty.MemberParty;
 import com.example.partymate.domain.util.BaseEntity;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 60, nullable = false)
     private String password;
 
     @Column(length = 64, nullable = false)
@@ -70,7 +72,7 @@ public class Member extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime birthYearDate;
 
     @Column(nullable = false)
