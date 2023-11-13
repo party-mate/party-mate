@@ -1,6 +1,5 @@
-package com.example.partymate.domain.captionimage;
+package com.example.partymate.model;
 
-import com.example.partymate.domain.post.Post;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,19 +22,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class CaptionImage {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long captionImageId;
+    private Long commentId;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String content;
 
     @ManyToOne
-    @JoinColumn(name = "captionImages")
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
     private Post post;
-
-    @Column(length = 511, nullable = false)
-    private String imageUrl;
-
-    @Column(length = 511, nullable = false)
-    private String thumbnailImageUrl;
 }

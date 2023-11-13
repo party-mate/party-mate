@@ -1,5 +1,6 @@
-package com.example.partymate.domain.party;
+package com.example.partymate.repository;
 
+import com.example.partymate.model.Party;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

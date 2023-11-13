@@ -1,17 +1,20 @@
-package com.example.partymate.domain.comment;
+package com.example.partymate.model;
 
-import com.example.partymate.domain.post.Post;
-import com.example.partymate.domain.member.Member;
+import javax.persistence.CascadeType;
+import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import static javax.persistence.EnumType.*;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -19,25 +22,22 @@ import lombok.NoArgsConstructor;
  * @date : 2023-10-17
  */
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Comment {
+public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long categoryId;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String content;
+    @Enumerated(STRING)
+    private CategoryConstants categoryName;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne
+    @OneToOne(cascade = ALL)
     @JoinColumn(name = "post_id")
     private Post post;
 }

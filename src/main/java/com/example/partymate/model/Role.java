@@ -1,44 +1,42 @@
-package com.example.partymate.domain.memberparty;
+package com.example.partymate.model;
 
-import com.example.partymate.domain.member.Member;
-import com.example.partymate.domain.party.Party;
-import com.example.partymate.domain.util.BaseEntity;
+import javax.persistence.CascadeType;
+import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
  * @author : Unagi_zoso
- * @date : 2023-10-13
+ * @date : 2023-10-17
  */
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper = true)
 @Entity
-public class MemberParty extends BaseEntity {
+public class Role extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberPartyId;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne
-    @JoinColumn(name = "party_id")
-    private Party party;
+    private Long roleId;
 
     @Column(nullable = false)
-    private String partyMemberRole;
+    private RoleConstants roleName;
+
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "member_id")
+    private Member member;
 }
+

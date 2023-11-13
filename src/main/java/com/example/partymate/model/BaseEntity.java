@@ -1,4 +1,4 @@
-package com.example.partymate.domain.util;
+package com.example.partymate.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -17,6 +17,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
+
+    private Integer erasedFlag = 0; // 0: false, 1: true, 삭제 요청 시 이 값을 수정한다.
 
     @CreatedDate
     @Column(updatable = false)

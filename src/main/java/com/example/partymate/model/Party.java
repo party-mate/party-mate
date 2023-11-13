@@ -1,40 +1,36 @@
-package com.example.partymate.domain.role;
+package com.example.partymate.model;
 
-import com.example.partymate.domain.member.Member;
-import com.example.partymate.domain.util.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-10-17
+ * @author : DABIN
+ * @date: 2023-10-12
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-public class Role extends BaseEntity {
+public class Party extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roleId;
+    private Long partyId;
 
     @Column(nullable = false)
-    private String roleName;
+    private String partyName;
 
-    @OneToOne
-    @JoinColumn(name = "role")
-    private Member member;
+    @Column(nullable = false)
+    private Integer currentMemberCount;
+
+    @Column(nullable = false)
+    private Integer maxPartyMemberCount;
 }
-

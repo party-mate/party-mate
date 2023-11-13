@@ -14,13 +14,15 @@ spring:
     open-in-view: true
     hibernate:
       naming:
-        physical-strategy: com.example.partymate.domain.util.namestrategy.SnakeCasePhysicalNameStrategy
+        physical-strategy: com.example.partymate.utils.namestrategy.SnakeCasePhysicalNameStrategy
       ddl-auto: create-drop
     show-sql: true
     defer-datasource-initialization: false
     database-platform: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate.dialect: org.hibernate.dialect.H2Dialect
+      hibernate:
+        format_sql: true
     generate-ddl: false
 
   h2:

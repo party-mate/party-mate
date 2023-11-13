@@ -1,4 +1,4 @@
-package com.example.partymate.domain.util.namestrategy;
+package com.example.partymate.utils.namestrategy;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
