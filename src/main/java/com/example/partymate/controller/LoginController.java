@@ -2,6 +2,7 @@ package com.example.partymate.controller;
 
 import com.example.partymate.domain.member.Member;
 import com.example.partymate.domain.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,15 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author : JJDabean
  * @date : 2023-11-8
  */
-
+@RequiredArgsConstructor
 @Controller
 public class LoginController {
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping({"","/"})
     public String index(){
