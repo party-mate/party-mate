@@ -7,8 +7,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-11-11
+ * @author Unagi_zoso
+ * @since 2023-11-11
  */
 @Repository
 public class MemberCustomRepositoryImpl implements MemberCustomRepository {

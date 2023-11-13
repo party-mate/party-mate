@@ -19,8 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-11-08
+ * @author Unagi_zoso
+ * @since 2023-11-08
  */
 @Repository
 public class PostCustomRepositoryImpl implements PostCustomRepository {

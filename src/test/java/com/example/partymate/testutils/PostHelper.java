@@ -8,8 +8,8 @@ import static com.example.partymate.testutils.PartyHelper.generateParty;
 import java.time.LocalDate;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-11-08
+ * @author Unagi_zoso
+ * @since 2023-11-08
  */
 public class PostHelper {
 

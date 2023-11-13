@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-11-08
+ * @author Unagi_zoso
+ * @since 2023-11-08
  */
 @Configuration
 public class QueryDslConfig {

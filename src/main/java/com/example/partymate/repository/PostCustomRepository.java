@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * @author : Unagi_zoso
- * @date : 2023-11-08
+ * @author Unagi_zoso
+ * @since 2023-11-08
  */
 public interface PostCustomRepository {
     PostResponseDto findPostByPartyId(Long partyId);
