@@ -60,4 +60,3 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<CaptionImage> captionImages;
 }
-
