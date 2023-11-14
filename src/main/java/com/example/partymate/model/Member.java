@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,20 +43,15 @@ public class Member extends BaseEntity {
     @Column(length = 64, nullable = false)
     private String emailAddress;
 
-    @Column(length = 256)
-    private String profileImageUrl;
-
     @Column(length = 32, nullable = false)
     private String phoneNumber;
 
     @Column(length = 32, nullable = false)
     private String nickname;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private GenderConstants gender;
-
-    @Column(nullable = false)
-    private LocalDate birthYearDate;
 
     @Embedded
     private Agreement agreement;
@@ -62,26 +59,22 @@ public class Member extends BaseEntity {
     public Member copy() {
         return Member.builder()
                 .memberId(this.memberId)
-                .birthYearDate(this.birthYearDate)
                 .emailAddress(this.emailAddress)
                 .nickname(this.nickname)
                 .password(this.password)
                 .gender(this.gender)
                 .phoneNumber(this.phoneNumber)
-                .profileImageUrl(this.profileImageUrl)
                 .agreement(this.agreement.copy())
                 .build();
     }
 
-    public static Member toMember(MemberSaveRequestDto memberSaveRequestDto, String profileImageUrl) {
+    public static Member toMember(MemberSaveRequestDto memberSaveRequestDto) {
         return  Member.builder()
-                .birthYearDate(memberSaveRequestDto.getBirthYearDate())
-                .emailAddress(memberSaveRequestDto.getEmailAddress())
                 .gender(convertTo(memberSaveRequestDto.getGender()))
+                .emailAddress(memberSaveRequestDto.getEmailAddress())
                 .nickname(memberSaveRequestDto.getNickname())
                 .password(memberSaveRequestDto.getPassword())
                 .phoneNumber(memberSaveRequestDto.getPhoneNumber())
-                .profileImageUrl(profileImageUrl)
                 .agreement(Agreement.builder()
                         .agreePrivacyFlag(memberSaveRequestDto.getAgreement().getAgreePrivacyFlag())
                         .agreeServiceFlag(memberSaveRequestDto.getAgreement().getAgreeServiceFlag())
@@ -96,12 +89,10 @@ public class Member extends BaseEntity {
 
         private Long memberId;
         private String emailAddress;
-        private String profileImageUrl;
         private String phoneNumber;
         private String nickname;
         private String password;
         private GenderConstants gender;
-        private LocalDate birthYearDate;
         private Agreement agreement;
         private Integer erasedFlag;
         private LocalDateTime createdDateTime;
@@ -110,12 +101,10 @@ public class Member extends BaseEntity {
         public MemberResponse(Member member) {
             this.memberId = member.getMemberId();
             this.emailAddress = member.getEmailAddress();
-            this.profileImageUrl = member.getProfileImageUrl();
             this.phoneNumber = member.getPhoneNumber();
             this.nickname = member.getNickname();
             this.password = member.getPassword();
             this.gender = member.getGender();
-            this.birthYearDate = member.getBirthYearDate();
             this.agreement = member.getAgreement();
             this.erasedFlag = member.getErasedFlag();
             this.createdDateTime = member.getCreatedDateTime();
@@ -127,12 +116,10 @@ public class Member extends BaseEntity {
         public MemberResponse(
                 Long memberId,
                 String emailAddress,
-                String profileImageUrl,
                 String phoneNumber,
                 String nickname,
                 String password,
                 GenderConstants gender,
-                LocalDate birthYearDate,
                 Agreement agreement,
                 Integer erasedFlag,
                 LocalDateTime createdDateTime,
@@ -140,12 +127,10 @@ public class Member extends BaseEntity {
         ) {
             this.memberId = memberId;
             this.emailAddress = emailAddress;
-            this.profileImageUrl = profileImageUrl;
             this.phoneNumber = phoneNumber;
             this.nickname = nickname;
             this.password = password;
             this.gender = gender;
-            this.birthYearDate = birthYearDate;
             this.agreement = agreement;
             this.erasedFlag = erasedFlag;
             this.createdDateTime = createdDateTime;
