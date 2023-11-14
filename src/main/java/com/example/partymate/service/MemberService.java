@@ -1,8 +1,8 @@
 package com.example.partymate.service;
 
 import static com.example.partymate.model.Member.toMember;
+
 import com.example.partymate.dto.MemberSaveRequestDto;
-import com.example.partymate.domain.FileStorageProperties;
 import com.example.partymate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,8 @@ public class MemberService {
     public final MemberRepository memberRepository;
 
     public void saveMember(MemberSaveRequestDto memberSaveRequestDto) {
-        FileStorageService fileStorageService = new FileStorageService(new FileStorageProperties());
-        String profileImageUrl = fileStorageService.storeFile(memberSaveRequestDto.getProfileImage());
         validateAgreement(memberSaveRequestDto);
-        memberRepository.save(toMember(memberSaveRequestDto, profileImageUrl));
+        memberRepository.save(toMember(memberSaveRequestDto));
     }
 
     private void validateAgreement(MemberSaveRequestDto memberSaveRequestDto) {
