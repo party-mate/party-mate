@@ -1,4 +1,4 @@
-package com.example.partymate.domain;
+package com.example.partymate.properties;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
