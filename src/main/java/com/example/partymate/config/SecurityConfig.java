@@ -29,7 +29,7 @@ public class SecurityConfig {
     private void setLocalMode(HttpSecurity http) throws Exception {
         http.antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/**", "/me", "/login/**", "/js/**", "/css/**", "/image/**", "/fonts/**", "/favicon.ico").permitAll()
+                .antMatchers("/", "/**", "/me", "/login/**", "/signup/**", "/js/**", "/css/**", "/image/**", "/fonts/**", "/favicon.ico").permitAll()
                 .and().formLogin().loginPage("/loginForm").loginProcessingUrl("/login").defaultSuccessUrl("/")
                 .and().headers().frameOptions().sameOrigin()
                 .and().csrf().disable()
