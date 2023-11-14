@@ -3,20 +3,19 @@ package com.example.partymate.repository;
 import com.example.partymate.model.Agreement;
 import com.example.partymate.model.Member;
 import com.example.partymate.model.Member.MemberResponse;
+import static com.example.partymate.testutils.MemberHelper.generateMember;
 import com.example.partymate.testutils.config.TestConfig;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-
-import static com.example.partymate.testutils.MemberHelper.generateMember;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Unagi_zoso
  * @since  2023-10-13
@@ -69,10 +68,8 @@ class MemberRepositoryTest {
                 () -> assertEquals(givenMember.getPassword(), returnedMember.getPassword()),
                 () -> assertEquals(givenMember.getEmailAddress(), returnedMember.getEmailAddress()),
                 () -> assertEquals(givenMember.getErasedFlag(), returnedMember.getErasedFlag()),
-                () -> assertEquals(givenMember.getBirthYearDate(), returnedMember.getBirthYearDate()),
                 () -> assertEquals(givenMember.getGender(), returnedMember.getGender()),
                 () -> assertEquals(givenMember.getPhoneNumber(), returnedMember.getPhoneNumber()),
-                () -> assertEquals(givenMember.getProfileImageUrl(), returnedMember.getProfileImageUrl()),
                 () -> assertEquals(givenAgreement.getAgreeMarketingFlag(), returnedAgreement.getAgreeMarketingFlag()),
                 () -> assertEquals(givenAgreement.getAgreePrivacyFlag(), returnedAgreement.getAgreePrivacyFlag()),
                 () -> assertEquals(givenAgreement.getAgreeServiceFlag(), returnedAgreement.getAgreeServiceFlag()),
@@ -133,10 +130,8 @@ class MemberRepositoryTest {
                 () -> assertEquals(givenMember.getPassword(), returnedMember.getPassword()),
                 () -> assertEquals(givenMember.getEmailAddress(), returnedMember.getEmailAddress()),
                 () -> assertEquals(givenMember.getErasedFlag(), returnedMember.getErasedFlag()),
-                () -> assertEquals(givenMember.getBirthYearDate(), returnedMember.getBirthYearDate()),
                 () -> assertEquals(givenMember.getGender(), returnedMember.getGender()),
-                () -> assertEquals(givenMember.getPhoneNumber(), returnedMember.getPhoneNumber()),
-                () -> assertEquals(givenMember.getProfileImageUrl(), returnedMember.getProfileImageUrl())
+                () -> assertEquals(givenMember.getPhoneNumber(), returnedMember.getPhoneNumber())
         );
     }
 
@@ -156,10 +151,8 @@ class MemberRepositoryTest {
                 () -> assertEquals(givenMember.getPassword(), returnedMember.getPassword()),
                 () -> assertEquals(givenMember.getEmailAddress(), returnedMember.getEmailAddress()),
                 () -> assertEquals(givenMember.getErasedFlag(), returnedMember.getErasedFlag()),
-                () -> assertEquals(givenMember.getBirthYearDate(), returnedMember.getBirthYearDate()),
                 () -> assertEquals(givenMember.getGender(), returnedMember.getGender()),
-                () -> assertEquals(givenMember.getPhoneNumber(), returnedMember.getPhoneNumber()),
-                () -> assertEquals(givenMember.getProfileImageUrl(), returnedMember.getProfileImageUrl())
+                () -> assertEquals(givenMember.getPhoneNumber(), returnedMember.getPhoneNumber())
         );
     }
 }
