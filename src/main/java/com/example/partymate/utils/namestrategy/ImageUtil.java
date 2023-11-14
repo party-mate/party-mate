@@ -13,8 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class ImageUtil {
 
-    public static BufferedImage resizeImage(MultipartFile image, int maxWidth, int maxHeight) throws IOException {
-        BufferedImage orgImg = ImageIO.read(image.getInputStream());
+    public static BufferedImage resizeImage(MultipartFile image, int maxWidth, int maxHeight) {
+        BufferedImage orgImg = null;
+        try {
+            orgImg = ImageIO.read(image.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return Scalr.resize(orgImg, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, maxWidth, maxHeight);
     }
 
@@ -22,13 +27,17 @@ public class ImageUtil {
         return ImageIO.read(multipartFile.getInputStream());
     }
 
-    public static void saveBufferedImageToFile(BufferedImage bufferedImage, String destinationPath) throws IOException {
+    public static void saveBufferedImageToFile(BufferedImage bufferedImage, String destinationPath) {
         File destinationFile = new File(destinationPath);
         if (!destinationFile.exists()) {
             destinationFile.getParentFile().mkdirs();
         }
 
         // BufferedImage를 File로 저장
-        ImageIO.write(bufferedImage, "jpg", destinationFile);
+        try {
+            ImageIO.write(bufferedImage, "jpg", destinationFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
