@@ -41,9 +41,9 @@ public class CaptionImage {
     @Column(length = 511, nullable = false)
     private String thumbnailImageUrl;
 
-    public static CaptionImage toCaptionImage(CaptionImageSaveDto captionImageSaveDto, String thumbnailImageUrl, Post post) {
+    public static CaptionImage toCaptionImage(String imageUrl, String thumbnailImageUrl, Post post) {
         return CaptionImage.builder()
-                .captionImageId(builder().captionImageId)
+                .imageUrl(imageUrl)
                 .thumbnailImageUrl(thumbnailImageUrl)
                 .post(post)
                 .build();

@@ -1,12 +1,7 @@
 package com.example.partymate.service;
 
-import com.example.partymate.domain.FileStorageProperties;
-import com.example.partymate.dto.MemberSaveRequestDto;
-import java.io.File;
-import java.io.FileInputStream;
+import com.example.partymate.properties.FileStorageProperties;
 import java.io.IOException;
-import java.io.InputStream;
-import static java.lang.Math.min;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +22,7 @@ public class FileStorageService {
     private final Path fileStorageLocation;
 
     @Autowired
-    public FileStorageService( FileStorageProperties fileStorageProperties) {
+    public FileStorageService(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 
