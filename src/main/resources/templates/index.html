@@ -3,16 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>인덱스 페이지</title>
+    <script src="https://kit.fontawesome.com/16ff4df072.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<style>
+    /* 좌측 아이콘 스타일링 */
+    .icon {
+        margin-right: 20px;
+        font-size: 40px;
+        float: left;
+        padding: 10px;
+        width: 40%;
+    }
+
+    /* 가운데 텍스트 스타일링 */
+    .text a {
+        text-decoration: none;
+        color: #8f2f2f;
+        font-size: 20px;
+        float: left;
+        padding: 10px;
+        width: 33%;
+        margin: 20px;
+    }
+
+    /* 우측 로그인 버튼 스타일링 */
+    .login-btn {
+        padding: 5px 10px;
+        background-color: #8f2f2f;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        float: right;
+        margin: 20px;
+    }
+
+    .link-container a {
+        text-decoration: none;
+        color: #333;
+        padding: 5px 110px;
+        border: 1px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 5px;
+    }
+
+    .header{
+        height:80px;
+    }
+</style>
 <body>
 <div class="header">
-    <div class="left-links">
-        <a href="${pageContext.request.contextPath }">tistory</a>
-        <a href="${pageContext.request.contextPath }/feed/list">피드</a>
-        <a href="${pageContext.request.contextPath }/story/list">스토리</a>
-        <a href="${pageContext.request.contextPath }/forum/list">포럼</a>
+    <div class="icon" >
+        <a style="text-decoration:none; color: #8f2f2f;"
+           href="/" class="fa-regular fa-handshake"></a>
     </div>
+
+    <div class="text">
+        <a href="/" class="fa-regular fa-handshak">Party Mate</a>
+    </div>
+
+    <a href="/loginForm" class="login-btn">로그인</a>
 </div>
+
+<hr>
+
+<div class="link-container">
+    <a href="#">자격증</a>
+    <a href="#">공모전</a>
+    <a href="#"> 취업</a>
+    <a href="#"> 기타</a>
+</div>
+
+<hr style="border-top: 2px solid #8f2f2f;">
 </body>
 </html>

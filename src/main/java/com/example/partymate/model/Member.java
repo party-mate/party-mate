@@ -37,7 +37,7 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 254, nullable = false)
     private String password;
 
     @Column(length = 64, nullable = false)
@@ -57,7 +57,7 @@ public class Member extends BaseEntity {
     private Agreement agreement;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column()
     private RoleConstants role;
 
     public static Member toMember(MemberSaveRequestDto memberSaveRequestDto) {

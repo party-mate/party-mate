@@ -23,10 +23,13 @@ public class MemberService {
 
     private void validateAgreement(MemberSaveRequestDto memberSaveRequestDto) {
         if (memberSaveRequestDto.getAgreement().getAgreePrivacyFlag() == 0 ||
-                memberSaveRequestDto.getAgreement().getAgreeServiceFlag() == 0 ||
-                memberSaveRequestDto.getAgreement().getAgreeMarketingFlag() == 0) {
+                memberSaveRequestDto.getAgreement().getAgreeServiceFlag() == 0) {
             throw new IllegalArgumentException("약관에 동의해주세요.");
         }
+    }
+
+    public void selectOne(Long memberId){
+        memberRepository.findByMemberId(memberId);
     }
 
     public void updateMember(Long memberId, String name, String email, String password) {

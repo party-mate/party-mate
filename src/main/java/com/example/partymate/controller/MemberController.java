@@ -19,9 +19,4 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping
-    public ResponseEntity<?> createMember(@RequestBody MemberSaveRequestDto memberSaveRequestDto) {
-        memberService.saveMember(memberSaveRequestDto);
-        return ResponseEntity.ok().build();
-    }
 }

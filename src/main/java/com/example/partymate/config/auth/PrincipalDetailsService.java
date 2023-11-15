@@ -18,8 +18,8 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     // security session(Authentication(UserDetails))
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member memberEntity = memberRepository.findByEmailAddress(email);
+    public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
+        Member memberEntity = memberRepository.findByEmailAddress(emailAddress);
 
         if(memberEntity != null){
             return new PrincipalDetails(memberEntity);
