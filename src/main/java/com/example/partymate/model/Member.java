@@ -1,8 +1,8 @@
 package com.example.partymate.model;
 
-import com.example.partymate.dto.MemberSaveRequestDto;
 import static com.example.partymate.model.GenderConstants.convertTo;
-import java.time.LocalDate;
+
+import com.example.partymate.dto.MemberSaveRequestDto;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -56,17 +56,9 @@ public class Member extends BaseEntity {
     @Embedded
     private Agreement agreement;
 
-    public Member copy() {
-        return Member.builder()
-                .memberId(this.memberId)
-                .emailAddress(this.emailAddress)
-                .nickname(this.nickname)
-                .password(this.password)
-                .gender(this.gender)
-                .phoneNumber(this.phoneNumber)
-                .agreement(this.agreement.copy())
-                .build();
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private RoleConstants role;
 
     public static Member toMember(MemberSaveRequestDto memberSaveRequestDto) {
         return  Member.builder()
@@ -80,6 +72,7 @@ public class Member extends BaseEntity {
                         .agreeServiceFlag(memberSaveRequestDto.getAgreement().getAgreeServiceFlag())
                         .agreeMarketingFlag(memberSaveRequestDto.getAgreement().getAgreeMarketingFlag())
                         .build())
+                .role(RoleConstants.USER)
                 .build();
     }
 
@@ -94,6 +87,7 @@ public class Member extends BaseEntity {
         private String password;
         private GenderConstants gender;
         private Agreement agreement;
+        private RoleConstants role;
         private Integer erasedFlag;
         private LocalDateTime createdDateTime;
         private LocalDateTime updatedDateTime;
@@ -106,6 +100,7 @@ public class Member extends BaseEntity {
             this.password = member.getPassword();
             this.gender = member.getGender();
             this.agreement = member.getAgreement();
+            this.role = member.getRole();
             this.erasedFlag = member.getErasedFlag();
             this.createdDateTime = member.getCreatedDateTime();
             this.updatedDateTime = member.getUpdatedDateTime();
@@ -121,6 +116,7 @@ public class Member extends BaseEntity {
                 String password,
                 GenderConstants gender,
                 Agreement agreement,
+                RoleConstants role,
                 Integer erasedFlag,
                 LocalDateTime createdDateTime,
                 LocalDateTime updatedDateTime
@@ -132,6 +128,7 @@ public class Member extends BaseEntity {
             this.password = password;
             this.gender = gender;
             this.agreement = agreement;
+            this.role = role;
             this.erasedFlag = erasedFlag;
             this.createdDateTime = createdDateTime;
             this.updatedDateTime = updatedDateTime;
