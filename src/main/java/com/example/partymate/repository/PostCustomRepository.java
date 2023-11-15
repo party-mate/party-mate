@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
  * @since 2023-11-08
  */
 public interface PostCustomRepository {
+    PostResponseDto findPostById(Long postId);
     PostResponseDto findPostByPartyId(Long partyId);
     PostResponseDtoList findPostsByMemberId(Long memberId);
     Page<PostIntroResponseDto> findPagePostIntroInDuration(LocalDate duration, Pageable pageable);
