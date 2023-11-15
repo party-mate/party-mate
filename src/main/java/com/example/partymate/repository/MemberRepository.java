@@ -10,5 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberCustomRepository {
     // findBy규칙 > Username 문법
-    Member findByEmailAddress(String email); // jpa Query methods
+    Member findByEmailAddress(String emailAddress); // jpa Query methods
+
+    Member findByMemberId(Long memberId);
 }
