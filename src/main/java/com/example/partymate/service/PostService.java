@@ -2,6 +2,7 @@ package com.example.partymate.service;
 
 import static com.example.partymate.model.Post.toPost;
 
+import com.example.partymate.model.CategoryConstants;
 import com.example.partymate.dto.CaptionImageSaveDto;
 import com.example.partymate.dto.PostIntroResponseDto;
 import com.example.partymate.dto.PostResponseDto;
@@ -36,8 +37,12 @@ public class PostService {
         }
     }
 
-    public Page<PostIntroResponseDto> findPostIntroResponseDtoListByPage(LocalDate duration, PageRequest pageRequest) {
+    public Page<PostIntroResponseDto> findPostIntroResponseDtoListwithPage(LocalDate duration, PageRequest pageRequest) {
         return postRepository.findPagePostIntroInDuration(duration, pageRequest);
+    }
+
+    public Page<PostIntroResponseDto> findPostIntroResponseDtoListByCategoryWithPage(CategoryConstants categoryName, PageRequest pageRequest) {
+        return postRepository.findPagePostIntroByCategory(categoryName, pageRequest);
     }
 
     public PostResponseDto findPostResponseDto(Long postId) {

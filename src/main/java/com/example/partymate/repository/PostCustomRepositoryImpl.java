@@ -6,6 +6,7 @@ import com.example.partymate.dto.PostIntroResponseDto;
 import com.example.partymate.dto.PostResponseDto;
 import com.example.partymate.dto.QPostIntroResponseDto;
 import com.example.partymate.dto.QPostResponseDto;
+import com.example.partymate.model.CategoryConstants;
 import static com.example.partymate.model.QCaptionImage.captionImage;
 import static com.example.partymate.model.QCategory.category;
 import static com.example.partymate.model.QParty.party;
@@ -122,6 +123,44 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .from(post)
                 .where((post.duration.before(duration)
                         .or(post.duration.eq(duration)))
+                        .and(post.erasedFlag.eq(0))).fetchOne();
+
+        return new PageImpl<>(postIntroResponseDtoList.getImmutableList(), pageable, count == null ? 0 : count);
+    }
+
+    @Override
+    public Page<PostIntroResponseDto> findPagePostIntroByCategory(CategoryConstants categoryName, Pageable pageable) {
+        PostIntroResponseDtoList postIntroResponseDtoList  = new PostIntroResponseDtoList(jpaQueryFactory
+                .select(new QPostIntroResponseDto(
+                        post.postId,
+                        post.party.partyId,
+                        post.title,
+                        post.member.nickname,
+                        post.duration,
+                        captionImage.thumbnailImageUrl,
+                        party.currentMemberCount,
+                        party.maxPartyMemberCount,
+                        category.categoryName))
+                .from(post)
+                .leftJoin(captionImage)
+                .on(post.eq(captionImage.post))
+                .leftJoin(category)
+                .on(post.eq(category.post))
+                .leftJoin(party)
+                .on(party.eq(post.party))
+                .where((post.duration.before(LocalDate.now())
+                        .or(post.duration.eq(LocalDate.now())))
+                        .and(post.erasedFlag.eq(0))
+                        .and(category.categoryName.eq(categoryName)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch());
+
+        Long count = jpaQueryFactory
+                .select(post.count())
+                .from(post)
+                .where((post.duration.before(LocalDate.now())
+                        .or(post.duration.eq(LocalDate.now())))
                         .and(post.erasedFlag.eq(0))).fetchOne();
 
         return new PageImpl<>(postIntroResponseDtoList.getImmutableList(), pageable, count == null ? 0 : count);

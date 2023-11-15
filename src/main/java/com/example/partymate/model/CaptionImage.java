@@ -2,7 +2,6 @@ package com.example.partymate.model;
 
 import static javax.persistence.CascadeType.ALL;
 
-import com.example.partymate.dto.CaptionImageSaveDto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class CaptionImage {
+public class CaptionImage extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +33,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "member", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "emailAddress"),
+        @UniqueConstraint(columnNames = "phoneNumber"),
+        @UniqueConstraint(columnNames = "nickname")
+})
 public class Member extends BaseEntity {
 
     @Id
@@ -91,6 +98,18 @@ public class Member extends BaseEntity {
         private Integer erasedFlag;
         private LocalDateTime createdDateTime;
         private LocalDateTime updatedDateTime;
+
+        public Member toEntity() {
+            return Member.builder()
+                    .emailAddress(emailAddress)
+                    .phoneNumber(phoneNumber)
+                    .nickname(nickname)
+                    .role(role)
+                    .gender(gender)
+                    .agreement(agreement)
+                    .password(password)
+                    .build();
+        }
 
         public MemberResponse(Member member) {
             this.memberId = member.getMemberId();
