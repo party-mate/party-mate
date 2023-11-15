@@ -3,6 +3,7 @@ package com.example.partymate.controller;
 import com.example.partymate.dto.PostIntroResponseDto;
 import com.example.partymate.dto.PostResponseDto;
 import com.example.partymate.dto.PostSaveRequestDto;
+import com.example.partymate.model.CategoryConstants;
 import com.example.partymate.service.PostService;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,15 @@ public class PostController {
             LocalDate duration,
             @RequestParam(name = "requestedPageId") Integer requestedPageId,
             @RequestParam(name = "pageSize") Integer pageSize) {
-            return postService.findPostIntroResponseDtoListByPage(duration, PageRequest.of(requestedPageId, pageSize));
+            return postService.findPostIntroResponseDtoListwithPage(duration, PageRequest.of(requestedPageId, pageSize));
+    }
+
+    @GetMapping("/intro/category/{category}")
+    public Page<PostIntroResponseDto> findPostIntroByPage (
+            @PathVariable(name = "category") CategoryConstants categoryName,
+            @RequestParam(name = "requestedPageId") Integer requestedPageId,
+            @RequestParam(name = "pageSize") Integer pageSize) {
+        return postService.findPostIntroResponseDtoListByCategoryWithPage(categoryName, PageRequest.of(requestedPageId, pageSize));
     }
 
     @GetMapping("/detail/{postId}")
