@@ -38,26 +38,6 @@
 
     }
 
-    function checkJoin(){
-        if(document.join.emailAddress.value == ""){
-            alert("이메일를 입력하세요");
-        }else if(document.join.password.value == ""){
-            alert("비밀번호를 입력하세요");
-        }else if(document.join.nickname.value == ""){
-            alert("닉네임을 입력하세요!");
-        }else if(document.join.name.value == ""){
-            alert("이름을 입력하세요!");
-        }else if(document.join.phoneNumber.value == ""){
-            alert("전화번호를 입력하세요!");
-        }else if(document.getElementById("ck1").checked != 1){
-            alert("필수 항목은 반드시 동의하셔야합니다.");
-        }else if(document.getElementById("ck2").checked != 1){
-            alert("필수 항목은 반드시 동의하셔야합니다.");
-        }else{
-            document.join.submit();
-        }
-
-    }
 </script>
 <body>
 <style>
@@ -122,17 +102,16 @@
         transition: all 0.1s ease-out;
     }
 </style>
-<form action="/member" method="POST" class="signup" name="join">
+<form action="/join" method="POST" class="signup" name="join">
 <div >
     <div class="login-content">
         <h2>회원가입 페이지</h2>
         <hr/>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" placeholder="Password" onchange="checkPW()"/>
-            <span id="pwcheck"></span><br>
-
             <input type="email" id="emailAddress" name="emailAddress" placeholder="Email" required/>
             <button class="mi">이메일 인증하기</button><br>
+
+            <input type="password" name="password" id="password" placeholder="Password" onchange="checkPW()"/>
+            <span id="pwcheck"></span><br>
 
             <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="010-1234-1234"/><br>
 
@@ -144,26 +123,27 @@
             <label><input type="radio" name="gender" value="FEMALE">여</label><br>
 
         <!-- 전체 동의 체크박스 추가 -->
-        <input type="checkbox" id="ckAll" class="checkbox ck-all">
-        <label for="ckAll">party mate 약관에 대해 전체동의</label><br>
 
         <!-- 약관 동의 체크박스들에 id 추가 -->
-        <dd class="check">
-            <label for="agreeService">Agree to Service:</label>
-            <input type="checkbox" id="agreeService" name="agreeService" value="1" checked><br>
-            party mate 서비스 이용약관 (필수)
-        </dd>
-        <dd class="check">
-            <label for="agreePrivacy">Agree to Privacy Policy:</label>
-            <input type="checkbox" id="agreePrivacy" name="agreePrivacy" value="1" checked><br>
-            개인정보수집 및 이용동의 (필수)
-        </dd>
-        <dd class="check">
-            <label for="agreeMarketing">Agree to Marketing:</label>
-            <input type="checkbox" id="agreeMarketing" name="agreeMarketing" value="1"><br>
-            이벤트, 혜택정보 수신동의 (선택)
-        </dd>
-        <button type="button" onclick="submitForm()">Submit</button>
+        <dl>
+            <dd>
+                <input type="checkbox" id="ckAll" class="checkbox ck-all">
+                <label for="ckAll">party mate 약관에 대해 전체동의</label><br>
+            </dd>
+            <dd class="check">
+                <input type="checkbox" name="agreeServiceFlag" id="ck1" class="checkbox ck" value="1">
+                party mate 서비스 이용약관 (필수)
+            </dd>
+            <dd class="check">
+                <input type="checkbox" name="agreePrivacyFlag" id="ck2" class="checkbox ck" value="1">
+                개인정보수집 및 이용동의    (필수)
+            </dd>
+            <dd class="check">
+                <input type="checkbox" name="agreeMarketingFlag" id="ck3" class="checkbox ck" value="1">
+                이벤트, 혜택정보 수신동의   (선택)
+            </dd>
+        </dl>
+        <button type="button" class="ok" onclick="submitForm()">Submit</button>
     </div>
 </div>
 </form>
@@ -213,23 +193,25 @@
             nickname: document.getElementById("nickname").value,
             gender: selectedGender,
             agreement: {
-                agree_service_flag: document.getElementById("agreeService").checked ? 1 : 0,
-                agree_privacy_flag: document.getElementById("agreePrivacy").checked ? 1 : 0,
-                agree_marketing_flag: document.getElementById("agreeMarketing").checked ? 1 : 0,
+                agree_service_flag: document.getElementById("ck1").checked ? 1 : 0,
+                agree_privacy_flag: document.getElementById("ck2").checked ? 1 : 0,
+                agree_marketing_flag: document.getElementById("ck3").checked ? 1 : 0,
             },
         };
         const json = JSON.stringify(formData)
         console.log(json);
-        fetch("http://localhost:8080/member", {
+        fetch("/join", {
             method: "POST",
             headers: {
+                Accept: "application / json",
                 "Content-Type": "application/json",
             },
             body: json
         })
-            .then(response => response.json())
+            .then(response => response)
             .then(data => {
                 console.log("Success:", data);
+                window.location.href = "/loginForm";
             })
             .catch(error => {
                 console.error("Error:", error);
