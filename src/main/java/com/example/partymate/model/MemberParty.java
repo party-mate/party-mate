@@ -41,4 +41,10 @@ public class MemberParty extends BaseEntity {
 
     @Column(nullable = false)
     private PartyMemberRoleConstants partyMemberRole;
+
+    public MemberParty(Member member, Party party, PartyMemberRoleConstants partyMemberRole) {
+        this.member = member;
+        this.party = party;
+        this.partyMemberRole = partyMemberRole;
+    }
 }

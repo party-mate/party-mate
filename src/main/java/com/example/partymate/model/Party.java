@@ -1,5 +1,6 @@
 package com.example.partymate.model;
 
+import com.example.partymate.dto.PartySaveRequestDto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,4 +36,12 @@ public class Party extends BaseEntity {
 
     @Column(nullable = false)
     private Integer maxPartyMemberCount;
+
+    public static Party toParty(PartySaveRequestDto partySaveRequestDto) {
+        return Party.builder()
+            .partyName(partySaveRequestDto.getPartyName())
+            .currentMemberCount(1)
+            .maxPartyMemberCount(partySaveRequestDto.getMaxPartyMemberCount())
+            .build();
+    }
 }

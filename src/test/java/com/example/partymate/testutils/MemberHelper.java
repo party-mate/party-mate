@@ -1,10 +1,11 @@
 package com.example.partymate.testutils;
 
+import static com.example.partymate.testutils.AgreementHelper.generateAgreement;
+
 import com.example.partymate.model.Agreement;
 import com.example.partymate.model.GenderConstants;
 import com.example.partymate.model.Member;
-import static com.example.partymate.testutils.AgreementHelper.generateAgreement;
-import java.time.LocalDate;
+import com.example.partymate.model.RoleConstants;
 
 /**
  * @author Unagi_zoso
@@ -14,14 +15,13 @@ public class MemberHelper {
     public static Member generateMember() {
 
         return Member.builder()
-                .birthYearDate(LocalDate.now())
                 .emailAddress("test@nyank.com")
                 .gender(GenderConstants.MALE)
                 .nickname("test")
                 .password("1234")
                 .phoneNumber("010-1234-3456")
-                .profileImageUrl(null)
                 .agreement(generateAgreement())
+                .role(RoleConstants.USER)
                 .build();
     }
 }

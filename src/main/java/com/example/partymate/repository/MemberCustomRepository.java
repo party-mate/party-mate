@@ -10,4 +10,5 @@ public interface MemberCustomRepository {
 
     MemberResponse findMemberByEmail(String emailAddress);
     MemberResponse findMemberByPhoneNumber(String phoneNumber);
+    MemberResponse findMemberByNickname(String nickname);
 }

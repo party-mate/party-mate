@@ -20,7 +20,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 
     @Override
     public MemberResponse findMemberByEmail(String emailAddress) {
-        Member member = jpaQueryFactory.selectFrom(QMember.member)
+        Member member = jpaQueryFactory.select(QMember.member)
                 .where(QMember.member.emailAddress.eq(emailAddress))
                 .where(QMember.member.erasedFlag.eq(0))
                 .fetchOne();
@@ -38,6 +38,18 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
                 .fetchOne();
         if (member == null) {
             throw new IllegalArgumentException("존재하지 않는 전화번호입니다.");
+        }
+        return new MemberResponse(member);
+    }
+
+    @Override
+    public MemberResponse findMemberByNickname(String nickname) {
+        Member member = jpaQueryFactory.select(QMember.member)
+                .where(QMember.member.nickname.eq(nickname))
+                .where(QMember.member.erasedFlag.eq(0))
+                .fetchOne();
+        if (member == null) {
+            throw new IllegalArgumentException("존재하지 않는 닉네임 입니다.");
         }
         return new MemberResponse(member);
     }
