@@ -1,7 +1,10 @@
 package com.example.partymate.config.auth;
 
 import com.example.partymate.model.Member;
+import com.example.partymate.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -25,15 +28,14 @@ public class PrincipalDetails implements UserDetails {
 
     public PrincipalDetails(Member member){
         this.member = member;
-//        this.role = role;
     }
 
     // 해당 user 권한 리턴
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         Collection<GrantedAuthority> collect = new ArrayList<>();
-        //    return role.getRoleName();
-        collect.add((GrantedAuthority) member::getNickname);
+        collect.add(new SimpleGrantedAuthority(member.getRole().name()));
         return collect;
     }
 
