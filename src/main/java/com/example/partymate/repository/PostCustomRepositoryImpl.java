@@ -31,6 +31,23 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     }
 
     @Override
+    public PostResponseDto findPostById(Long postId) {
+        return jpaQueryFactory
+                .select(new QPostResponseDto(
+                        post.postId,
+                        post.title,
+                        post.member.nickname,
+                        post.content,
+                        captionImage.imageUrl,
+                        post.duration,
+                        category.categoryName))
+                .from(post)
+                .where(post.postId.eq(postId)
+                        .and(post.erasedFlag.eq(0)))
+                .fetchOne();
+    }
+
+    @Override
     public PostResponseDto findPostByPartyId(Long partyId) {
         return jpaQueryFactory
                 .select(new QPostResponseDto(
