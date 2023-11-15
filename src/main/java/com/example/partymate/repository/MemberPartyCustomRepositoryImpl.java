@@ -45,4 +45,15 @@ public class MemberPartyCustomRepositoryImpl implements MemberPartyCustomReposit
                 .fetch();
         return new MemberPartyResponseDtoList(memberPartyResponseDtoList);
     }
+
+    @Override
+    public boolean existMemberInParty(Long memberId, Long partyId) {
+        return jpaQueryFactory
+                .select(memberParty)
+                .from(memberParty)
+                .where(memberParty.erasedFlag.eq(0)
+                        .and(memberParty.member.memberId.eq(memberId))
+                        .and(memberParty.party.partyId.eq(partyId)))
+                .fetchFirst() != null;
+    }
 }
