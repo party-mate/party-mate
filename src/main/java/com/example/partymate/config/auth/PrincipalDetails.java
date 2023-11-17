@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author JJDabean
@@ -23,8 +25,8 @@ import java.util.Collection;
 
 public class PrincipalDetails implements UserDetails {
 
+
     private final Member member;
-//    private Role role;
 
     public PrincipalDetails(Member member){
         this.member = member;
@@ -36,8 +38,14 @@ public class PrincipalDetails implements UserDetails {
 
         Collection<GrantedAuthority> collect = new ArrayList<>();
         collect.add(new SimpleGrantedAuthority(member.getRole().name()));
+//                .collect(Collectors.toList()));
         return collect;
     }
+
+    public final Member getMember(){
+        return member;
+    }
+
 
     @Override
     public String getPassword() {
@@ -46,7 +54,7 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getNickname();
+        return member.getEmailAddress();
     }
 
     @Override

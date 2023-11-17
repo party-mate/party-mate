@@ -66,8 +66,8 @@
         <div class="login-content">
             <h2>Login</h2>
             <hr/>
-            <input type="text" name="emailAddress" placeholder="Email" required/><br>
-            <input type="password" id="password" placeholder="Password" required/><br><br><br><br><br><br><br>
+            <input type="text" name="username" placeholder="Email" required/><br>
+            <input type="password" id="password" name="password" placeholder="Password" required/><br><br><br><br><br><br><br>
             <a href="/signup">아직 회원이 아니신가요?</a>
             <button class="ok" onclick="submitForm()">로그인</button>
         </div>
@@ -93,7 +93,7 @@
             .then(response => response)
             .then(data => {
                 console.log("Success:", data);
-                window.location.href = "/";
+                window.location.href = "";
             })
             .catch(error => {
                 console.error("Error:", error);
