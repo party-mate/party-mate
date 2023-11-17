@@ -2,7 +2,6 @@ package com.example.partymate.controller;
 
 import com.example.partymate.dto.MemberSaveRequestDto;
 import com.example.partymate.model.Member;
-import com.example.partymate.repository.MemberRepository;
 import com.example.partymate.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author JJDabean
@@ -29,21 +30,22 @@ public class LoginController {
     // 스프링시큐리티에서 해당 주소를 낚아 챈다 > SecurityConfig 파일 생성후 작동 안함
     @GetMapping("/loginForm")
     public String loginForm(){
-        return "loginForm";
+        return "login/loginForm";
     }
 
     @GetMapping("/signup")
     public String joinForm(){
-        return "joinForm";
+        return "login/joinForm";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody MemberSaveRequestDto memberSaveRequestDto){
-//        String password = memberSaveRequestDto.getPassword();
-//        memberSaveRequestDto.setPassword(password);
-
-        return "index";
-    }
+//    @PostMapping("/in")
+//    public String loginFinish(HttpServletRequest request, Member member){
+//    //    List<> = memberService.selectOne(member.getMemberId());
+//        System.out.println(memberService);
+//        System.out.println(member);
+//
+//        return "in";
+//    }
 
     @PostMapping("/join")
     public String join(@RequestBody MemberSaveRequestDto memberSaveRequestDto){
@@ -54,6 +56,6 @@ public class LoginController {
 
         memberService.saveMember(memberSaveRequestDto);
 
-        return "loginForm";
+        return "login/loginForm";
     }
 }
