@@ -40,7 +40,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'javax.mail:javax.mail-api:1.6.2'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
     implementation 'org.imgscalr:imgscalr-lib:4.2'
 
     compileOnly 'org.projectlombok:lombok'
@@ -49,6 +51,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+}
+
+jar {
+    enabled = false
 }
 
 tasks.named('test') {

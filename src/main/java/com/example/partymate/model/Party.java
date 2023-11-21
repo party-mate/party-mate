@@ -40,8 +40,12 @@ public class Party extends BaseEntity {
     public static Party toParty(PartySaveRequestDto partySaveRequestDto) {
         return Party.builder()
             .partyName(partySaveRequestDto.getPartyName())
-            .currentMemberCount(1)
+            .currentMemberCount(0)
             .maxPartyMemberCount(partySaveRequestDto.getMaxPartyMemberCount())
             .build();
+    }
+
+    public void addMemberCount() {
+        this.currentMemberCount++;
     }
 }

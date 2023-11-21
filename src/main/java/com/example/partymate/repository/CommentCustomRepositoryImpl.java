@@ -26,7 +26,9 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository{
                 QComment.comment.content,
                 QComment.comment.member.memberId,
                 QComment.comment.post.postId,
-                QComment.comment.parentComment.commentId
+                QComment.comment.parentComment.commentId,
+                QComment.comment.member.nickname,
+                QComment.comment.createdDateTime
                 ))
                 .from(QComment.comment)
                 .where(QComment.comment.post.postId.eq(postId))

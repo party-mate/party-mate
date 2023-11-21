@@ -19,12 +19,13 @@ public class PrincipalDetailsService implements UserDetailsService {
     // security session(Authentication(UserDetails))
     @Override
     public PrincipalDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
-        System.out.println(emailAddress);
+        // System.out.println(emailAddress);
         Member member = memberRepository.findByEmailAddress(emailAddress);
 
         if(member == null){
-            System.out.println("DB에서 아무것도 못가져옴");
+            System.out.println("DB에서 아무 것도 못가져옴");
         }
+        System.out.println("" + member.getMemberId() + " " + member.getEmailAddress() + " " + member.getPassword() + " " + member.getRole());
         return new PrincipalDetails(member);
     }
 }

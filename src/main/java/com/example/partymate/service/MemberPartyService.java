@@ -33,6 +33,8 @@ public class MemberPartyService {
             throw new RuntimeException("이미 가입한 파티입니다.");
         }
         memberPartyRepository.save(new MemberParty(member, party, MEMBER));
+        party.addMemberCount();
+        partyRepository.save(party);
     }
 
     private boolean existsByMemberAndParty(Member member, Party party) {

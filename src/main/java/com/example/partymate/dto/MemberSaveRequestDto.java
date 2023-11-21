@@ -21,4 +21,5 @@ public class MemberSaveRequestDto {
     private String nickname;
     private String gender;
     private Agreement agreement;
+    private String authCode;
 }

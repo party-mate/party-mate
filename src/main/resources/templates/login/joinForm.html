@@ -6,38 +6,6 @@
 </head>
 <script>
 
-    // 닉네임 중복확인 DB보내기
-    function checkNick(n) {
-        if(document.join.nickname.value == ""){
-            alert("닉네임을 입력하십시오!");
-            return;
-        }
-
-        var url = "${pageContext.request.contextPath}/member/checkNick";
-        var param = "nickname=" + encodeURIComponent(n.nickname.value);
-        sendRequest(url,param,resultFn,"POST");
-    }
-    function checkPW(){
-        var password = document.getElementById("password").value;
-        var pwcheck = document.getElementById("pwcheck");
-
-        var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-
-        if(password.length >= 10){
-            if (passwordRegex.test(password)) {
-                pwcheck.style.cssText="color: blue; font-size: 10px;";
-                pwcheck.innerText = "유효한 비밀번호입니다.";
-            }else{
-                pwcheck.style.cssText="color: red; font-size: 10px;";
-                pwcheck.innerText = "비밀번호는 영문자, 숫자 및 특수 문자를 포함해야 합니다.";
-            }
-        } else{
-            pwcheck.style.cssText="color: red; font-size: 10px;";
-            pwcheck.innerText = "비밀번호는 8자이상으로 이루어져야 합니다.";
-        }
-
-    }
-
 </script>
 <body>
 <style>
@@ -103,12 +71,15 @@
     }
 </style>
 <form action="/join" method="POST" class="signup" name="join">
-<div >
-    <div class="login-content">
-        <h2>회원가입 페이지</h2>
-        <hr/>
+    <div >
+        <div class="login-content">
+            <h2>회원가입 페이지</h2>
+            <hr/>
             <input type="email" id="emailAddress" name="emailAddress" placeholder="Email" required/>
-            <button class="mi">이메일 인증하기</button><br>
+            <a class="mi" id="validator">이메일 인증하기</a><br>
+
+            <input type="text" id="emailValidator" name="emailValidator" placeholder="auth" required/>
+            <br>
 
             <input type="password" name="password" id="password" placeholder="Password" onchange="checkPW()"/>
             <span id="pwcheck"></span><br>
@@ -116,36 +87,36 @@
             <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="010-1234-1234"/><br>
 
             <input type="text" id="nickname" name="nickname" placeholder="Nickname" required/>
-            <button class="mi" onclick="checkNick()">닉네임 중복확인</button><span id="checkNick"></span><br>
+            <a class="mi" onclick="checkNick()">닉네임 중복확인</a><span id="checkNick"></span><br>
 
             <span style="color:rgb(128,128,128);">Gender:</span>
             <label><input type="radio" name="gender" value="MALE" checked>남</label>
             <label><input type="radio" name="gender" value="FEMALE">여</label><br>
 
-        <!-- 전체 동의 체크박스 추가 -->
+            <!-- 전체 동의 체크박스 추가 -->
 
-        <!-- 약관 동의 체크박스들에 id 추가 -->
-        <dl>
-            <dd>
-                <input type="checkbox" id="ckAll" class="checkbox ck-all">
-                <label for="ckAll">party mate 약관에 대해 전체동의</label><br>
-            </dd>
-            <dd class="check">
-                <input type="checkbox" name="agreeServiceFlag" id="ck1" class="checkbox ck" value="1">
-                party mate 서비스 이용약관 (필수)
-            </dd>
-            <dd class="check">
-                <input type="checkbox" name="agreePrivacyFlag" id="ck2" class="checkbox ck" value="1">
-                개인정보수집 및 이용동의    (필수)
-            </dd>
-            <dd class="check">
-                <input type="checkbox" name="agreeMarketingFlag" id="ck3" class="checkbox ck" value="1">
-                이벤트, 혜택정보 수신동의   (선택)
-            </dd>
-        </dl>
-        <button type="button" class="ok" onclick="submitForm()">Submit</button>
+            <!-- 약관 동의 체크박스들에 id 추가 -->
+            <dl>
+                <dd>
+                    <input type="checkbox" id="ckAll" class="checkbox ck-all">
+                    <label for="ckAll">party mate 약관에 대해 전체동의</label><br>
+                </dd>
+                <dd class="check">
+                    <input type="checkbox" name="agreeServiceFlag" id="ck1" class="checkbox ck" value="1">
+                    party mate 서비스 이용약관 (필수)
+                </dd>
+                <dd class="check">
+                    <input type="checkbox" name="agreePrivacyFlag" id="ck2" class="checkbox ck" value="1">
+                    개인정보수집 및 이용동의    (필수)
+                </dd>
+                <dd class="check">
+                    <input type="checkbox" name="agreeMarketingFlag" id="ck3" class="checkbox ck" value="1">
+                    이벤트, 혜택정보 수신동의   (선택)
+                </dd>
+            </dl>
+            <button type="button" class="ok" onclick="submitForm()">Submit</button>
+        </div>
     </div>
-</div>
 </form>
 
 <script type="text/javascript">
@@ -189,6 +160,7 @@
         const formData = {
             password: document.getElementById("password").value,
             email_address: document.getElementById("emailAddress").value,
+            auth_code: document.getElementById("emailValidator").value,
             phone_number: document.getElementById("phoneNumber").value,
             nickname: document.getElementById("nickname").value,
             gender: selectedGender,
@@ -209,14 +181,106 @@
             body: json
         })
             .then(response => response)
-            .then(data => {
-                console.log("Success:", data);
-                window.location.href = "/login/loginForm";
-            })
+            .then(response => {
+                if (response.ok) {
+                    // 로그아웃 성공
+                    alert("회원가입 성공");
+                    // 추가적인 동작을 수행할 수 있습니다.
+                    window.location.href = "/";
+                } else {
+                    // 회원가입 싪
+                    alert('회원가입 실패');
+                }
+            }
+            )
             .catch(error => {
                 console.error("Error:", error);
             });
     }
+    // ${pageContext.request.contextPath}/member/validator
+    document.getElementById('validator').addEventListener('click', function () {
+        var url = "/emails/verification-requests";
+        var param = "?email=" + encodeURIComponent(document.join.emailAddress.value);
+        fetch(url+param, {
+            method: "POST",
+            headers: {
+                Accept: "application / json",
+            },
+        })
+            .then(response => response)
+            .then(response => {
+                if (response.ok) {
+                    // 로그아웃 성공
+                    alert('발송 성공');
+                    // 추가적인 동작을 수행할 수 있습니다.
+                } else {
+                    // 로그아웃 실패
+                    console.error('발송 실패');
+                }})
+            .then(data => {
+                console.log("Success:", data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+
+
+    // 닉네임 중복확인 DB보내기
+    function checkNick(n) {
+        if(document.join.nickname.value == ""){
+            alert("닉네임을 입력하십시오!");
+            return;
+        }
+
+        var url = "/api/member/checknick";
+        var param = "?nickname=" + document.join.nickname.value;
+        fetch(url+param, {
+            method: "POST",
+            headers: {
+                Accept: "application / json",
+            },
+        })
+            .then(response => response)
+            .then(response => {
+                if (response.ok) {
+                    // 로그아웃 성공
+                    alert('좋은 닉네임!');
+                    // 추가적인 동작을 수행할 수 있습니다.
+                } else  {
+                    alert("닉네임 중복 발생!")
+                    document.getElementById("nickname").value = "";
+                    console.error("Error:", error);
+                }})
+            .then(data => {
+                console.log("Success:", data);
+            })
+            .catch(error => {
+                document.getElementById("nickname").value = "";
+                console.error("Error:", error);
+            });
+    }
+    function checkPW(){
+        var password = document.getElementById("password").value;
+        var pwcheck = document.getElementById("pwcheck");
+
+        var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+
+        if(password.length >= 10){
+            if (passwordRegex.test(password)) {
+                pwcheck.style.cssText="color: blue; font-size: 10px;";
+                pwcheck.innerText = "유효한 비밀번호입니다.";
+            }else{
+                pwcheck.style.cssText="color: red; font-size: 10px;";
+                pwcheck.innerText = "비밀번호는 영문자, 숫자 및 특수 문자를 포함해야 합니다.";
+            }
+        } else{
+            pwcheck.style.cssText="color: red; font-size: 10px;";
+            pwcheck.innerText = "비밀번호는 8자이상으로 이루어져야 합니다.";
+        }
+
+    }
+
 </script>
 </body>
 </html>

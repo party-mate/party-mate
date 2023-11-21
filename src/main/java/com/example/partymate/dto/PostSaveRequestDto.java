@@ -1,5 +1,6 @@
 package com.example.partymate.dto;
 
+import com.example.partymate.model.CategoryConstants;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostSaveRequestDto {
     private String title;
     private String content;
-    private MultipartFile captionImage;
-    private Long memberId;
+    private CategoryConstants category;
+    private Integer maxPartyMemberCount;
     private LocalDate duration;
-    private Long partyId;
 }

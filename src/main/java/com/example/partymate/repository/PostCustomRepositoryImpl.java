@@ -39,10 +39,16 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                         post.title,
                         post.member.nickname,
                         post.content,
-                        captionImage.imageUrl,
                         post.duration,
-                        category.categoryName))
+                        category.categoryName,
+                        party.currentMemberCount,
+                        party.maxPartyMemberCount
+                ))
                 .from(post)
+                .leftJoin(category)
+                .on(post.eq(category.post))
+                .leftJoin(party)
+                .on(party.eq(post.party))
                 .where(post.postId.eq(postId)
                         .and(post.erasedFlag.eq(0)))
                 .fetchOne();
@@ -56,14 +62,17 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                         post.title,
                         post.member.nickname,
                         post.content,
-                        captionImage.imageUrl,
                         post.duration,
-                        category.categoryName))
+                        category.categoryName,
+                        party.currentMemberCount,
+                        party.maxPartyMemberCount))
                 .from(post)
                 .leftJoin(captionImage)
                 .on(post.eq(captionImage.post))
                 .leftJoin(category)
                 .on(post.eq(category.post))
+                .leftJoin(party)
+                .on(party.eq(post.party))
                 .where(post.party.partyId.eq(partyId)
                         .and(post.erasedFlag.eq(0)))
                 .fetchOne();
@@ -77,14 +86,17 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                         post.title,
                         post.member.nickname,
                         post.content,
-                        captionImage.imageUrl,
                         post.duration,
-                        category.categoryName))
+                        category.categoryName,
+                        party.currentMemberCount,
+                        party.maxPartyMemberCount))
                 .from(post)
                 .leftJoin(captionImage)
                 .on(post.eq(captionImage.post))
                 .leftJoin(category)
                 .on(post.eq(category.post))
+                .leftJoin(party)
+                .on(party.eq(post.party))
                 .where(post.member.memberId.eq(memberId)
                         .and(post.erasedFlag.eq(0)))
                 .fetch();
@@ -148,7 +160,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .on(post.eq(category.post))
                 .leftJoin(party)
                 .on(party.eq(post.party))
-                .where((post.duration.before(LocalDate.now())
+                .where((post.duration.after(LocalDate.now())
                         .or(post.duration.eq(LocalDate.now())))
                         .and(post.erasedFlag.eq(0))
                         .and(category.categoryName.eq(categoryName)))
@@ -159,9 +171,11 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         Long count = jpaQueryFactory
                 .select(post.count())
                 .from(post)
-                .where((post.duration.before(LocalDate.now())
+                .where((post.duration.after(LocalDate.now())
                         .or(post.duration.eq(LocalDate.now())))
                         .and(post.erasedFlag.eq(0))).fetchOne();
+
+        System.out.println("으아아악 " + postIntroResponseDtoList.getSize());
 
         return new PageImpl<>(postIntroResponseDtoList.getImmutableList(), pageable, count == null ? 0 : count);
     }

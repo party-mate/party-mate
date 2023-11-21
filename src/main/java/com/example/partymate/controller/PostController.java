@@ -6,9 +6,11 @@ import com.example.partymate.dto.PostSaveRequestDto;
 import com.example.partymate.model.CategoryConstants;
 import com.example.partymate.service.PostService;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +30,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public void savePost(@RequestBody PostSaveRequestDto postSaveRequestDto) {
-        postService.savePost(postSaveRequestDto);
+    public void savePost(@RequestBody PostSaveRequestDto postSaveRequestDto, @AuthenticationPrincipal String username) {
+        postService.savePost(postSaveRequestDto, username);
     }
 
     @GetMapping("/intro")
@@ -45,7 +47,9 @@ public class PostController {
             @PathVariable(name = "category") CategoryConstants categoryName,
             @RequestParam(name = "requestedPageId") Integer requestedPageId,
             @RequestParam(name = "pageSize") Integer pageSize) {
-        return postService.findPostIntroResponseDtoListByCategoryWithPage(categoryName, PageRequest.of(requestedPageId, pageSize));
+        Page<PostIntroResponseDto> p = postService.findPostIntroResponseDtoListByCategoryWithPage(categoryName, PageRequest.of(requestedPageId, pageSize));
+        System.out.println(p.getContent().get(0).getTitle());
+        return p;
     }
 
     @GetMapping("/detail/{postId}")

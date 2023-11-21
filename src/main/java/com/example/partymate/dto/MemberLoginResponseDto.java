@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Unagi_zoso
- * @since 2023-11-15
+ * @since 2023-11-19
  */
-@Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class PartySaveRequestDto {
-    private String partyName;
-    private Integer maxPartyMemberCount;
+@NoArgsConstructor
+@Getter
+public class MemberLoginResponseDto {
+    String nickname;
+    String profileImage;
 }

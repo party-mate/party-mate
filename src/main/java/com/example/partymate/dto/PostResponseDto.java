@@ -20,9 +20,10 @@ public class PostResponseDto {
     private String title;
     private String nickname;
     private String content;
-    private String imageUrl;
     private LocalDate duration;
-    private CategoryConstants categoryName;
+    private String category;
+    private Integer currentPartyMemberCount;
+    private Integer maxPartyMemberCount;
 
     @QueryProjection
     public PostResponseDto(
@@ -30,16 +31,18 @@ public class PostResponseDto {
             String title,
             String nickname,
             String content,
-            String imageUrl,
             LocalDate duration,
-            CategoryConstants categoryName
+            CategoryConstants category,
+            Integer currentPartyMemberCount,
+            Integer maxPartyMemberCount
     ) {
         this.postId = postId;
         this.title = title;
         this.nickname = nickname;
         this.content = content;
-        this.imageUrl = imageUrl;
         this.duration = duration;
-        this.categoryName = categoryName;
+        this.category = CategoryConstants.toString(category);
+        this.currentPartyMemberCount = currentPartyMemberCount;
+        this.maxPartyMemberCount = maxPartyMemberCount;
     }
 }
