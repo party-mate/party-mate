@@ -101,6 +101,7 @@ public class Member extends BaseEntity {
 
         public Member toEntity() {
             return Member.builder()
+                    .memberId(memberId)
                     .emailAddress(emailAddress)
                     .phoneNumber(phoneNumber)
                     .nickname(nickname)

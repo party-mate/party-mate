@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>로그인 페이지</title>
@@ -68,24 +68,24 @@
             <hr/>
             <input type="text" name="username" placeholder="Email" required/><br>
             <input type="password" id="password" name="password" placeholder="Password" required/><br><br><br><br><br><br><br>
-            <a href="/signup">아직 회원이 아니신가요?</a>
-            <button class="ok" onclick="submitForm()">로그인</button>
+            <a th:href="@{/signup}">아직 회원이 아니신가요?</a>
+            <button class="ok">로그인</button>
         </div>
     </div>
 </form>
-<script>
+<script th:inline="javascript">
     function submitForm(){
         const formData = {
-            email_address: document.getElementById("emailAddress").value,
+            email_address: document.getElementsByName("username")[0].value,
             password: document.getElementById("password").value
         };
 
         const json = JSON.stringify(formData)
-        console.log(json);
+
         fetch("/login", {
             method: "POST",
             headers: {
-                Accept: "application / json",
+                Accept: "application/json",
                 "Content-Type": "application/json",
             },
             body: json

@@ -39,7 +39,7 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -50,11 +50,13 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "party_id")
     private Party party;
 
-    public static Post toPost(PostSaveRequestDto postSaveRequestDto) {
+    public static Post toPost(PostSaveRequestDto postSaveRequestDto, Party party, Member member) {
         return Post.builder()
             .title(postSaveRequestDto.getTitle())
             .content(postSaveRequestDto.getContent())
             .duration(postSaveRequestDto.getDuration())
+                .member(member)
+                .party(party)
             .build();
     }
 }

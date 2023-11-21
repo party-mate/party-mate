@@ -32,12 +32,14 @@ public class SecurityConfig {
     }
 
     private void setLocalMode(HttpSecurity http) throws Exception {
-        http.antMatcher("/**")
+        http
+                .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/**", "/me", "/login/**", "/signup/**", "/js/**", "/css/**", "/image/**", "/fonts/**", "/favicon.ico").permitAll()
+                .antMatchers("/", "/api/post/intro/**", "/me", "/login/**", "/api/member/**", "/emails/verification-requests", "/join/**", "/signup/**","/loginForm/**", "/joinForm/**", "/api/user", "/api/user/**", "/signup/**", "/js/**", "/css/**", "/image/**", "/fonts/**", "/favicon.ico").permitAll()
+                .antMatchers("/api/**").hasAnyAuthority("USER")
                 .and().formLogin().loginPage("/loginForm").loginProcessingUrl("/login").defaultSuccessUrl("/")
                 .and().headers().frameOptions().sameOrigin()
-                .and().csrf().disable()
-        ;
+                .and().csrf().disable();
     }
+
 }

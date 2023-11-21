@@ -21,12 +21,14 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     @Override
     public MemberResponse findMemberByEmail(String emailAddress) {
         Member member = jpaQueryFactory.select(QMember.member)
+                .from(QMember.member)
                 .where(QMember.member.emailAddress.eq(emailAddress))
                 .where(QMember.member.erasedFlag.eq(0))
                 .fetchOne();
         if (member == null) {
             throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
         }
+        System.out.println("나다 " + member.getMemberId() + " " + member.getNickname() + " " + member.getEmailAddress() + " " + member.getPhoneNumber());
         return new MemberResponse(member);
     }
 
@@ -45,6 +47,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     @Override
     public MemberResponse findMemberByNickname(String nickname) {
         Member member = jpaQueryFactory.select(QMember.member)
+                .from(QMember.member)
                 .where(QMember.member.nickname.eq(nickname))
                 .where(QMember.member.erasedFlag.eq(0))
                 .fetchOne();
@@ -52,5 +55,18 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
             throw new IllegalArgumentException("존재하지 않는 닉네임 입니다.");
         }
         return new MemberResponse(member);
+    }
+
+    @Override
+    public boolean findMemberByNicknameForCheck(String nickname) {
+        Member member = jpaQueryFactory.select(QMember.member)
+                .from(QMember.member)
+                .where(QMember.member.nickname.eq(nickname))
+                .where(QMember.member.erasedFlag.eq(0))
+                .fetchOne();
+        if (member == null) {
+            return false;
+        }
+        return true;
     }
 }

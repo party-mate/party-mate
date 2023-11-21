@@ -5,12 +5,10 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Unagi_zoso
- * @since 2023-11-15
+ * @since 2023-11-21
  */
 @NoArgsConstructor
 @Getter
-public class CommentSaveDto {
-    private String content;
-    private Long postId;
-    private Long parentCommentId;
+public class NicknameCheckRequestDto {
+    String nickname;
 }

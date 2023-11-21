@@ -38,7 +38,6 @@ public class PrincipalDetails implements UserDetails {
 
         Collection<GrantedAuthority> collect = new ArrayList<>();
         collect.add(new SimpleGrantedAuthority(member.getRole().name()));
-//                .collect(Collectors.toList()));
         return collect;
     }
 

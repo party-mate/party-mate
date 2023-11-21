@@ -36,7 +36,12 @@ public class Category extends BaseEntity {
     @Enumerated(STRING)
     private CategoryConstants categoryName;
 
-    @OneToOne(cascade = ALL)
+    @OneToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    public Category(CategoryConstants category, Post post) {
+        this.categoryName = category;
+        this.post = post;
+    }
 }

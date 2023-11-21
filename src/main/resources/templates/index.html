@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>인덱스 페이지</title>
@@ -22,12 +22,13 @@
         font-size: 20px;
         float: left;
         padding: 10px;
-        width: 33%;
-        margin: 20px;
+        width: 3%;
+        margin: 2px;
     }
 
     /* 우측 로그인 버튼 스타일링 */
     .login-btn {
+        display: block;
         padding: 5px 10px;
         background-color: #8f2f2f;
         color: white;
@@ -35,6 +36,34 @@
         border-radius: 3px;
         float: right;
         margin: 20px;
+    }
+
+    /* 우측 로그아웃 버튼 스타일링 */
+    .post-save-btn {
+        display: none;
+        padding: 5px 10px;
+        background-color: #8f2f2f;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        float: right;
+        margin: 20px;
+    }
+
+    /* 우측 로그아웃 버튼 스타일링 */
+    .logout-btn {
+        display: none;
+        padding: 5px 10px;
+        background-color: #8f2f2f;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        float: right;
+        margin: 20px;
+    }
+
+    #category-content {
+        padding-top: 5%;
     }
 
     .link-container a {
@@ -50,30 +79,401 @@
     .header{
         height:80px;
     }
+
+    .profile-container {
+        display: none; /* 처음에는 숨김 상태로 설정 */
+        float: right;
+        margin: 20px;
+    }
+
+    .profile-info {
+        display: flex;
+        align-items: center;
+        color: #8f2f2f;
+    }
+
+    .profile-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    /* 우측 버튼 스타일링 */
+    .header .btn-container {
+        float: right;
+    }
+
+    .btn-container a {
+        padding: 5px 10px;
+        background-color: #8f2f2f;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        margin-left: 10px;
+    }
+
+    .btn-container .post-save-btn {
+        display: none;
+    }
+
+    /* 포스트 생성 폼 스타일링 */
+    #add-post-form {
+        display: none;
+        width: 50%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #add-post-form label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #add-post-form textarea {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    #add-post-form button {
+        padding: 10px 20px;
+        background-color: #8f2f2f;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* 카드 사이의 간격 조절 */
+    }
+
+    .card {
+        width: calc(25% - 20px); /* 4개의 카드가 한 행에 위치하도록 설정하며 간격을 제외한 너비를 나눔 */
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #f4f4f4;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+    /* 동그라미 스타일링 */
+    .circle-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin: 0 5px; /* 동그라미 사이의 간격을 조절 */
+    }
+
+    .circle.blue {
+        background-color: #3498db; /* 파란색 */
+    }
+
+    .circle.gray {
+        background-color: #95a5a6; /* 진한 회색 */
+    }
+
 </style>
 <body>
 <div class="header">
     <div class="icon" >
-        <a style="text-decoration:none; color: #8f2f2f;"
-           href="/" class="fa-regular fa-handshake"></a>
+        <a th:href="@{/}" style="text-decoration:none; color: #8f2f2f;" class="fa-regular fa-handshake"></a>
     </div>
 
     <div class="text">
-        <a href="/" class="fa-regular fa-handshak">Party Mate</a>
+        <a th:href="@{/}" class="fa-regular fa-handshak">Party Mate</a>
     </div>
 
-    <a href="/loginForm" class="login-btn">로그인</a>
+    <div class="profile-container" id="profileContainer">
+        <div class="profile-info" id="profileInfo"></div>
+    </div>
+    <div class="btn-container">
+        <a class="post-save-btn" id="post-save-btn" onclick="showAddPostForm()">포스트 생성</a>
+        <a class="logout-btn" id="logout-btn">로그아웃</a>
+        <a href="/loginForm" class="login-btn" id="login-btn">로그인</a>
+    </div>
 </div>
 
 <hr>
 
 <div class="link-container">
-    <a href="#">자격증</a>
-    <a href="#">공모전</a>
-    <a href="#"> 취업</a>
-    <a href="#"> 기타</a>
+    <a id="certification" onclick="loadCategory('CERTIFICATION')">자격증</a>
+    <a id="party" onclick="loadCategory('PARTY')">공모전</a>
+    <a id="career" onclick="loadCategory('CAREER')">취업</a>
+    <a id="etc" onclick="loadCategory('ETC')">기타</a>
 </div>
 
 <hr style="border-top: 2px solid #8f2f2f;">
+
+<script>
+    function addPost() {
+        const title = document.getElementById('title').value;
+        const maxCount = document.getElementById('maxPartyMemberCounter').value;
+        const content = document.getElementById('content').value;
+        const duration = document.getElementById('duration').value;
+        const category = document.getElementById('category').value;
+
+        // 게시글 추가 API 호출
+        fetch('/api/post', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                max_party_member_count: maxCount,
+                content: content,
+                duration: duration,
+                category: category,
+            }),
+        })
+            .then(() => {
+                // 게시글 추가 후 화면 갱신 등 추가 동작 수행
+                console.log('게시글 추가 성공');
+            })
+            .then(() => {
+                // 게시글 추가 폼을 닫음
+                closeAddPostForm();
+                window.location.href = "/";
+            })
+            .catch(error => {
+                console.error('게시글 추가 실패:', error);
+            });
+    }
+</script>
+
+
+<div id="add-post-form" style="display: none;">
+    <h3>게시글 추가</h3>
+    <form onsubmit="addPost(); return false;">
+        <label for="title">제목:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="maxPartyMemberCounter">최대 인원:</label>
+        <input type="number" id="maxPartyMemberCounter" name="max_party_member_count" required>
+
+        <label for="content">내용:</label>
+        <textarea id="content" name="content" required></textarea>
+
+        <label for="category">카테고리:</label>
+        <select id="category" name="category" required>
+            <option value="CERTIFICATION">자격증</option>
+            <option value="PARTY">공모전</option>
+            <option value="CAREER">취업</option>
+            <option value="ETC">기타</option>
+        </select>
+
+        <label for="duration">기간:</label>
+        <input type="date" id="duration" name="duration" required>
+
+        <button type="submit">포스트 생성</button>
+    </form>
+    <a id="post-save-close-btn">닫기</a>
+</div>
+
+<div id="category-content">
+    <!-- 카테고리 내용이 여기에 동적으로 삽입됩니다. -->
+</div>
+
+
+<!-- JavaScript 코드 추가: 로그인 상태 확인 후 세션 정보 가져오기 -->
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/user')
+            .then(response => response.json())
+            .then(data => {
+                if (data !== null && data.status !== 500) {
+                    // 로그인 상태일 때의 처리
+                    console.log('User is logged in:', data);
+                    sessionStorage.setItem("nickname", data.nickname)
+                    sessionStorage.setItem("profileImage", data.profile_image)
+                    const userName = sessionStorage.getItem("nickname");
+                    const profilePictureUrl = sessionStorage.getItem("profileImage");
+                    if (userName !== undefined) {
+                        console.log(userName);
+                        // 화면 업데이트: 프로필 정보 표시 및 로그인 버튼 숨김
+                        document.getElementById("profileInfo").innerHTML = `<img src="${profilePictureUrl}" alt="프로필 사진">${userName}`;
+                        document.getElementById("profileContainer").style.display = "flex";
+                        document.getElementById("login-btn").style.display = "none";
+                        document.getElementById("logout-btn").style.display = "block";
+                        document.getElementById("post-save-btn").style.display = "block";
+                    }
+                }
+            });
+        // 카드 클릭 이벤트 처리
+        document.getElementById('category-content').addEventListener('click', function(event) {
+            const postIdAttribute = 'data-post-id';
+            const clickedElement = event.target.closest('.card');
+
+            // 클릭된 요소가 카드 또는 카드의 자식 요소인 경우에 처리
+            if (clickedElement) {
+                // data-post-id 속성을 통해 postId 값을 가져옴
+                const postId = clickedElement.getAttribute(postIdAttribute);
+
+                // postId가 존재하면 해당 postId로 이동
+                if (postId) {
+                    window.location.href = `/post/${postId}`;
+                }
+            }
+        });
+
+        loadCategory('CERTIFICATION')
+    });
+
+    document.getElementById("logout-btn").addEventListener("click", function() {
+        function logout() {
+            fetch('/logout', {
+                method: 'POST',
+                credentials: 'include', // 쿠키를 포함시키기 위해 필요한 옵션
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 로그아웃 성공
+                        console.log('로그아웃 성공');
+                        // 추가적인 동작을 수행할 수 있습니다.
+                    } else {
+                        // 로그아웃 실패
+                        console.error('로그아웃 실패');
+                    }
+                })
+                .catch(error => {
+                    console.error('네트워크 오류:', error);
+                });
+        }
+
+        logout();
+
+        // 세션 스토리지 데이터 삭제
+        sessionStorage.removeItem("nickname");
+        sessionStorage.removeItem("profileImage");
+
+        document.getElementById("profileInfo").innerHTML = ``;
+        document.getElementById("profileContainer").style.display = "none";
+        document.getElementById("login-btn").style.display = "block";
+        document.getElementById("logout-btn").style.display = "none";
+        document.getElementById("post-save-btn").style.display = "none";
+    });
+
+    function loadCategory(category) {
+        const categoryContent = document.getElementById('category-content');
+        categoryContent.innerHTML = ''; // 기존 내용 초기화
+
+        const requestedPageId = 0; // 첫 번째 페이지를 로드하도록 설정
+        const pageSize = 10; // 페이지 크기를 설정 (원하는 크기로 변경 가능)
+
+        // 카테고리에 대한 데이터를 서버에서 가져오는 API 호출
+        fetch(`/api/post/intro/category/${category}?requestedPageId=${requestedPageId}&pageSize=${pageSize}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`서버 응답 오류: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('카테고리 데이터:', data)
+                // 가져온 데이터를 카드 형태로 렌더링
+                renderCategoryCards(data.content); // 데이터는 content 속성에 있을 것으로 가정
+            })
+            .catch(error => {
+                console.error('네트워크 오류:', error);
+            });
+    }
+
+    function renderCategoryCards(categoryData) {
+        const categoryContent = document.getElementById('category-content');
+        categoryContent.innerHTML = ''; // 기존 내용 초기화
+
+        // 카드 컨테이너 생성
+        const cardContainer = document.createElement('div');
+        cardContainer.classList.add('card-container');
+
+        // 각 항목을 카드 형태로 렌더링
+        categoryData.forEach(item => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            // 파란색 동그라미와 회색 동그라미를 보여줄 조건 추가
+            const circleColor = item.current_party_member_count < item.max_party_member_count ? 'blue' : 'gray';
+
+            <!-- 카드 내용 구성 -->
+            card.innerHTML = `
+                <div class="card-header">
+                    <h3>${item.title}</h3>
+                    <p>${item.nickname}</p>
+                </div>
+                <div class="card-content">
+                    <p>현재 인원: ${item.current_party_member_count} / 최대 인원: ${item.max_party_member_count}</p>
+                    <div class="circle-container">
+                        ${getBlueCircles(item.current_party_member_count)}
+                        ${getGrayCircles(item.max_party_member_count - item.current_party_member_count)}
+                    </div>
+                    <p>진행 기간: ${formatDate(item.duration)}</p>
+                </div>
+            `;
+
+            // data-post-id 속성 추가
+            card.setAttribute('data-post-id', item.post_id);
+
+            // 카드를 카드 컨테이너에 추가
+            cardContainer.appendChild(card);
+        });
+
+        // 카드 컨테이너를 카테고리 컨텐츠에 추가
+        categoryContent.appendChild(cardContainer);
+    }
+
+    // 파란색 동그라미 반환 함수
+    function getBlueCircles(count) {
+        return Array.from({ length: count }, () => '<div class="circle blue"></div>').join('');
+    }
+
+    // 진한 회색 동그라미 반환 함수
+    function getGrayCircles(count) {
+        return Array.from({ length: count }, () => '<div class="circle gray"></div>').join('');
+    }
+
+    // 날짜 형식을 변환하는 함수
+    function formatDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString(undefined, options);
+    }
+
+
+
+    document.getElementById('post-save-btn').addEventListener('click', showAddPostForm);
+    document.getElementById('post-save-close-btn').addEventListener('click', closeAddPostForm);
+
+
+    function showAddPostForm() {
+        // 게시글 추가 폼을 표시
+        document.getElementById('add-post-form').style.display = 'block';
+    }
+    function closeAddPostForm() {
+        document.getElementById('title').value = '';
+        document.getElementById('maxPartyMemberCounter').value = '';
+        document.getElementById('content').value = '';
+        document.getElementById('duration').value = '';
+                // 게시글 추가 폼을 표시
+        document.getElementById('add-post-form').style.display = 'none';
+    }
+
+</script>
+
 </body>
 </html>

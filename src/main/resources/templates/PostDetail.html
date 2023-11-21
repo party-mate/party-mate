@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- 필요한 스타일시트 및 스크립트를 포함하세요 -->
+    <script src="https://kit.fontawesome.com/16ff4df072.js" crossorigin="anonymous"></script>
+</head>
+<style>
+    /* 좌측 아이콘 스타일링 */
+    .icon {
+        margin-right: 20px;
+        font-size: 40px;
+        float: left;
+        padding: 10px;
+        width: 40%;
+    }
+
+    /* 가운데 텍스트 스타일링 */
+    .text a {
+        text-decoration: none;
+        color: #8f2f2f;
+        font-size: 20px;
+        float: left;
+        padding: 10px;
+        width: 3%;
+        margin: 2px;
+    }
+
+    /* 우측 로그인 버튼 스타일링 */
+    .login-btn {
+        display: block;
+        padding: 5px 10px;
+        background-color: #8f2f2f;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        float: right;
+        margin: 20px;
+    }
+
+    /* 우측 로그아웃 버튼 스타일링 */
+    .logout-btn {
+        display: none;
+        padding: 5px 10px;
+        background-color: #8f2f2f;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        float: right;
+        margin: 20px;
+    }
+
+    .profile-container {
+        display: none; /* 처음에는 숨김 상태로 설정 */
+        float: right;
+        margin: 20px;
+    }
+
+    .profile-info {
+        display: flex;
+        align-items: center;
+        color: #8f2f2f;
+    }
+
+    .profile-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    /* 우측 버튼 스타일링 */
+    .header .btn-container {
+        float: right;
+    }
+
+    .btn-container a {
+        padding: 5px 10px;
+        background-color: #8f2f2f;
+        color: white;
+        text-decoration: none;
+        border-radius: 3px;
+        margin-left: 10px;
+    }
+    body {
+        font-family: 'Nanum Gothic', sans-serif;
+        background-color: #f5f5f5; /* 전체 배경색 */
+        color: #333; /* 전체 텍스트 색상 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .card {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px;
+        width: 80%;
+        box-sizing: border-box;
+        background-color: #fff; /* 카드 배경색 */
+        transition: box-shadow 0.3s ease; /* 그림자에 부드러운 효과를 줍니다. */
+    }
+
+    .card:hover {
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+    #detailTitle {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+
+    #detailContent {
+        text-align: center;
+        margin-top: 70px;
+        margin-bottom: 100px;
+        font-size: 1.2em;
+        line-height: 1.5;
+    }
+
+    #detailDuration {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .detail-info {
+        text-align: center;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom: 20px;
+        display: flex; /* Flexbox를 사용하여 내부 요소를 가로 정렬 */
+        justify-content: center; /* 내부 요소를 가로 중앙 정렬 */
+        align-items: center; /* 내부 요소를 세로 중앙 정렬 */
+    }
+
+    #detailNickname {
+        font-size: 1.1em;
+        margin-right: 10px; /* 닉네임과 다른 정보 사이 여백 조절 */
+    }
+
+    #detailNickname,
+    #detailCategory,
+    #currentParticipants,
+    #maxParticipants,
+    #response {
+        font-size: 1.1em;
+    }
+
+    .comment-container {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px;
+        width: 80%;
+        box-sizing: border-box;
+        background-color: #fff; /* 댓글 창 배경색 */
+        transition: box-shadow 0.3s ease; /* 그림자에 부드러운 효과를 줍니다. */
+    }
+
+    .comment-container:hover {
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+
+    #commentContent {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+
+    #commentsContainer {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 댓글 카드 스타일링 */
+    .comment {
+        border: 1px solid #ddd; /* 카드 테두리 스타일 */
+        border-radius: 8px; /* 카드 테두리 둥글게 처리 */
+        padding: 10px; /* 내부 여백 */
+        margin-bottom: 10px; /* 댓글 카드 간 간격 */
+        background-color: #f9f9f9; /* 카드 배경색 */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    }
+
+    .comment-author {
+        font-weight: bold; /* 닉네임을 굵게 표시 */
+    }
+
+    .comment-date {
+        color: #555; /* 작성 날짜 색상 */
+        font-size: 0.9em; /* 작성 날짜 폰트 크기 */
+        margin-top: 5px; /* 작성 날짜와 내용 사이 간격 */
+    }
+
+    .comment-content {
+        margin-top: 10px; /* 내용 위 여백 */
+        line-height: 1.5; /* 내용 줄 간격 */
+    }
+
+    /* 댓글 카드 스타일링 */
+    .comment {
+        position: relative; /* 상대 위치 지정 */
+        /* 이전 스타일 코드 생략 */
+    }
+
+    .comment-options {
+        position: absolute; /* 절대 위치 지정 */
+        top: 5px; /* 위쪽 여백 */
+        right: 5px; /* 오른쪽 여백 */
+    }
+
+    .comment-options button {
+        margin-left: 5px; /* 버튼 간 간격 */
+        cursor: pointer; /* 커서를 손가락 모양으로 변경 */
+    }
+
+    /* 동그라미 스타일링 */
+    .circle-container {
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin: 0 5px; /* 동그라미 사이의 간격을 조절 */
+    }
+
+    .circle.blue {
+        background-color: #3498db; /* 파란색 */
+    }
+
+    .circle.gray {
+        background-color: #95a5a6; /* 진한 회색 */
+    }
+
+</style>
+<body style="display: flex; flex-direction: column; align-items: center;">
+<div class="header" style="width: 100%; box-sizing: border-box;">
+    <div class="icon" >
+        <a th:href="@{/}" style="text-decoration:none; color: #8f2f2f;" class="fa-regular fa-handshake"></a>
+    </div>
+
+    <div class="text">
+        <a th:href="@{/}" class="fa-regular fa-handshak">Party Mate</a>
+    </div>
+
+    <div class="profile-container" id="profileContainer">
+        <div class="profile-info" id="profileInfo"></div>
+    </div>
+    <div class="btn-container">
+        <a class="logout-btn" id="logout-btn">로그아웃</a>
+        <a href="/loginForm" class="login-btn" id="login-btn">로그인</a>
+    </div>
+</div>
+
+<hr style="width: 100%; margin-bottom: 0%">
+
+<hr style="border-top: 2px solid #8f2f2f; width: 100%">
+
+<div class="card">
+    <!-- 상세 정보를 표시할 요소들 -->
+    <h2 id="detailTitle">제목</h2>
+    <p id="detailNickname">닉네임: </p>
+    <p id="detailCategory">카테고리: </p>
+    <p id="detailContent">내용 </p>
+    <div style="justify-content: center; display: flex">
+        <button id="partyJoinButton">파티 참가</button>
+    </div>
+    <p id="detailDuration">진행 기간: </p>
+
+    <!-- 추가 정보 표시 -->
+    <div class="detail-info">
+        <p id="currentParticipants">현재 참가자: </p>
+        <p>    /    </p>
+        <p id="maxParticipants">최대 참가자: </p>
+    </div>
+    <div class="circle-container" id = "circle-container2">
+    </div>
+
+</div>
+
+<div class="comment-container">
+    <!-- 댓글 입력 폼 -->
+    <div id="commentFormContainer">
+        <h3>댓글 작성</h3>
+        <form onsubmit="addComment(); return false;">
+            <label for="commentContent">댓글 내용:</label>
+            <textarea id="commentContent" name="commentContent" required></textarea>
+            <button type="submit">댓글 작성</button>
+        </form>
+    </div>
+
+    <!-- 댓글을 표시할 요소 -->
+    <div id="commentsContainer"></div>
+</div>
+
+<!-- 추가적인 디자인 및 기능을 위한 요소들을 추가하세요 -->
+
+<script>
+    var postId = [[${postId}]];
+    // 파란색 동그라미 반환 함수
+    function getBlueCircles(count) {
+        return Array.from({ length: count }, () => '<div class="circle blue"></div>').join('');
+    }
+
+    // 진한 회색 동그라미 반환 함수
+    function getGrayCircles(count) {
+        return Array.from({ length: count }, () => '<div class="circle gray"></div>').join('');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+
+        fetch('/api/user')
+            .then(response => response.json())
+            .then(data => {
+                if (data !== null && data.status !== 500) {
+                    // 로그인 상태일 때의 처리
+                    console.log('User is logged in:', data);
+                    sessionStorage.setItem("nickname", data.nickname)
+                    sessionStorage.setItem("profileImage", data.profile_image)
+                    const userName = sessionStorage.getItem("nickname");
+                    const profilePictureUrl = sessionStorage.getItem("profileImage");
+                    if (userName !== undefined) {
+                        console.log(userName);
+                        // 화면 업데이트: 프로필 정보 표시 및 로그인 버튼 숨김
+                        document.getElementById("profileInfo").innerHTML = `<img src="${profilePictureUrl}" alt="프로필 사진">${userName}`;
+                        document.getElementById("profileContainer").style.display = "flex";
+                        document.getElementById("login-btn").style.display = "none";
+                        document.getElementById("logout-btn").style.display = "block";
+                    }
+                }
+            });
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // 게시글 상세 정보 가져오기
+        fetch("/api/post/detail/"+postId)
+            .then(response => response.json())
+            .then(postData => {
+                console.log('Post 상세 정보:', postData);
+                fillPostDetails(postData);
+            })
+            .catch(error => {
+                console.error('Post 상세 정보를 가져오는 중 오류 발생:', error);
+            });
+
+        // 댓글 목록 가져오기
+        fetch("/api/comment/post/" + postId)
+            .then(response => response.json())
+            .then(commentData => {
+                console.log('댓글 목록:', commentData);
+                fillComments(commentData);
+            })
+            .catch(error => {
+                console.error('댓글 목록을 가져오는 중 오류 발생:', error);
+            });
+
+        // 추가적인 디자인 및 기능을 위한 코드를 추가하세요
+    });
+
+    function fillPostDetails(postData) {
+        document.getElementById('detailTitle').innerText = postData.title;
+        document.getElementById('detailContent').innerText = postData.content;
+        document.getElementById('detailDuration').innerText = `진행 기간: ${formatDate(postData.duration)}`;
+
+        // 추가 정보 추가
+        document.getElementById('detailNickname').innerText = `작성자: ${postData.nickname}`;
+        document.getElementById('detailCategory').innerText = `카테고리: ${postData.category}`;
+        document.getElementById('currentParticipants').innerText = `현재 참가자: ${postData.current_party_member_count}`;
+        document.getElementById('maxParticipants').innerText = `최대 참가자: ${postData.max_party_member_count}`;
+
+        document.getElementById('circle-container2').innerHTML = getBlueCircles(postData.current_party_member_count) + getGrayCircles(postData.max_party_member_count - postData.current_party_member_count)
+    }
+
+    function fillComments(commentData) {
+        const commentsContainer = document.getElementById('commentsContainer');
+        commentsContainer.innerHTML = '';
+        console.log(commentData.comment_response_dto_list);
+        commentData.comment_response_dto_list.forEach(comment => {
+            const commentElement = createCommentElement(comment);
+            commentsContainer.appendChild(commentElement);
+        });
+    }
+
+    // 댓글 요소를 생성하는 함수 (수정됨)
+    function createCommentElement(comment) {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+
+        // 편집 가능한 입력란을 추가
+        commentElement.innerHTML = `
+            <p class="comment-author">${comment.nickname}</p>
+            <p class="comment-date">${formatDate(comment.created_date)}</p>
+            <div class="comment-content-container">
+                <div class="comment-content-display" id="commentContentDisplay_${comment.comment_id}">
+                    ${comment.content}
+                </div>
+                <div class="comment-content-edit" id="commentContentEdit_${comment.comment_id}" style="display: none;">
+                    <textarea id="commentContentTextarea_${comment.comment_id}">${comment.content}</textarea>
+                    <button onclick="confirmEditComment(${comment.comment_id})">확인</button>
+                    <button onclick="cancelEditComment(${comment.comment_id})">취소</button>
+                </div>
+                <button onclick="startEditComment(${comment.comment_id})">수정</button>
+                <button onclick="deleteComment(${comment.comment_id})">삭제</button>
+            </div>
+        `;
+
+        return commentElement;
+    }
+
+    // 댓글을 수정 가능한 상태로 전환하는 함수
+    function startEditComment(commentId) {
+        // 수정 가능한 상태로 전환
+        document.getElementById(`commentContentDisplay_${commentId}`).style.display = 'none';
+        document.getElementById(`commentContentEdit_${commentId}`).style.display = 'block';
+    }
+
+    // 댓글 수정을 확인하는 함수
+    function confirmEditComment(commentId) {
+        const updatedContent = document.getElementById(`commentContentTextarea_${commentId}`).value;
+
+        // 서버로 수정 내용을 전송
+        updateComment(commentId, updatedContent);
+        console.log('댓글 수정:', commentId, updatedContent)
+
+        // 수정 내용을 표시하고 수정 가능한 상태를 종료
+        document.getElementById(`commentContentDisplay_${commentId}`).innerText = updatedContent;
+        document.getElementById(`commentContentDisplay_${commentId}`).style.display = 'block';
+        document.getElementById(`commentContentEdit_${commentId}`).style.display = 'none';
+    }
+
+    // 댓글 수정을 취소하는 함수
+    function cancelEditComment(commentId) {
+        // 수정 가능한 상태를 종료
+        document.getElementById(`commentContentDisplay_${commentId}`).style.display = 'block';
+        document.getElementById(`commentContentEdit_${commentId}`).style.display = 'none';
+    }
+    // 수정된 댓글 내용을 서버로 전송하는 함수
+    function updateComment(commentId, updatedContent) {
+        console.log('댓글 수정:', commentId, updatedContent);
+        fetch(`/api/comment/update/${commentId}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                post_id: postId,
+                content: updatedContent,
+                parent_comment_id: null, // parentCommentId가 필요하다면 적절한 값으로 수정
+            }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    // 댓글 목록을 다시 불러와서 화면에 표시
+                    fetch("/api/comment/post/" + postId)
+                        .then(response => response.json())
+                        .then(commentData => {
+                            console.log('댓글 목록:', commentData);
+                            updateCommentsUI(commentData.comment_response_dto_list);
+                        })
+                        .catch(error => {
+                            console.error('댓글 목록을 가져오는 중 오류 발생:', error);
+                        });
+                    console.log(`댓글 수정 성공 - 댓글 ID: ${commentId}`);
+                    // 성공적으로 수정되었을 때 수행할 동작 추가
+                } else {
+                    console.error(`댓글 수정 실패 - 댓글 ID: ${commentId}`);
+                }
+            })
+            .catch(error => {
+                console.error('네트워크 오류:', error);
+            });
+    }
+
+    // 댓글을 삭제하는 함수
+    function deleteComment(commentId) {
+        fetch(`/api/comment/delete/${commentId}`, {
+            method: 'DELETE',
+            credentials: 'include',
+        })
+            .then(response => {
+                if (response.ok) {
+                    // 댓글 목록을 다시 불러와서 화면에 표시
+                    fetch("/api/comment/post/" + postId)
+                        .then(response => response.json())
+                        .then(commentData => {
+                            console.log('댓글 목록:', commentData);
+                            updateCommentsUI(commentData.comment_response_dto_list);
+                        })
+                        .catch(error => {
+                            console.error('댓글 목록을 가져오는 중 오류 발생:', error);
+                        });
+
+                    console.log(`댓글 삭제 성공 - 댓글 ID: ${commentId}`);
+                    // 성공적으로 삭제되었을 때 수행할 동작 추가
+                } else {
+                    console.error(`댓글 삭제 실패 - 댓글 ID: ${commentId}`);
+                }
+            })
+            .catch(error => {
+                console.error('네트워크 오류:', error);
+            });
+    }
+
+    // 날짜 형식을 변환하는 함수 (이전 코드와 동일)
+    function formatDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString(undefined, options);
+    }
+
+    document.getElementById("logout-btn").addEventListener("click", function() {
+        function logout() {
+            fetch('/logout', {
+                method: 'POST',
+                credentials: 'include', // 쿠키를 포함시키기 위해 필요한 옵션
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 로그아웃 성공
+                        console.log('로그아웃 성공');
+                        // 추가적인 동작을 수행할 수 있습니다.
+                    } else {
+                        // 로그아웃 실패
+                        console.error('로그아웃 실패');
+                    }
+                })
+                .catch(error => {
+                    console.error('네트워크 오류:', error);
+                });
+        }
+
+        logout();
+
+        // 세션 스토리지 데이터 삭제
+        sessionStorage.removeItem("nickname");
+        sessionStorage.removeItem("profileImage");
+
+        document.getElementById("profileInfo").innerHTML = ``;
+        document.getElementById("profileContainer").style.display = "none";
+        document.getElementById("logout-btn").style.display = "none";
+
+        window.location.href = "/";
+    });
+
+    // 댓글 작성 함수
+    function addComment() {
+        const commentContent = document.getElementById('commentContent').value;
+
+        // 댓글 추가 API 호출
+        fetch(`/api/comment`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: commentContent,
+                post_id: postId,
+                parent_comment_id: null, // parentCommentId가 필요하다면 적절한 값으로 수정
+            }),
+        })
+            .then(() => {
+                // 댓글 목록을 다시 불러와서 화면에 표시
+                fetch("/api/comment/post/" + postId)
+                    .then(response => response.json())
+                    .then(commentData => {
+                        console.log('댓글 목록:', commentData);
+                        updateCommentsUI(commentData.comment_response_dto_list);
+                    })
+                    .catch(error => {
+                        console.error('댓글 목록을 가져오는 중 오류 발생:', error);
+                    });
+            })
+            .catch(error => {
+                console.error('댓글 추가 실패:', error);
+            });
+    }
+
+    // 화면에 새로운 댓글을 추가하는 함수
+    function updateCommentsUI(newComments) {
+        const commentsContainer = document.getElementById('commentsContainer');
+        commentsContainer.innerHTML = '';
+
+        newComments.forEach(commentData => {
+            const commentElement = createCommentElement(commentData);
+            commentsContainer.appendChild(commentElement);
+        });
+    }
+
+    document.getElementById('partyJoinButton').addEventListener('click', function() {
+
+        // 서버에 보낼 데이터
+        var data = {
+            post_id: postId
+        };
+
+        fetch('/api/member/party', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    // 파티 가입 성공
+                    console.log('파티 가입 성공!');
+                    fetch("/api/post/detail/"+postId)
+                        .then(response => response.json())
+                        .then(postData => {
+                            console.log('Post 상세 정보:', postData);
+                            fillPostDetails(postData);
+                        })
+                        .catch(error => {
+                            console.error('Post 상세 정보를 가져오는 중 오류 발생:', error);
+                        });
+
+                    // 댓글 목록 가져오기
+                    fetch("/api/comment/post/" + postId)
+                        .then(response => response.json())
+                        .then(commentData => {
+                            console.log('댓글 목록:', commentData);
+                            fillComments(commentData);
+                        })
+                        .catch(error => {
+                            console.error('댓글 목록을 가져오는 중 오류 발생:', error);
+                        });
+                } else {
+                    // 파티 가입 실패
+                    console.error('파티 가입 실패');
+                }
+            })
+            .catch(error => {
+                console.error('네트워크 오류:', error);
+            });
+    });
+
+</script>
+</body>
+</html>

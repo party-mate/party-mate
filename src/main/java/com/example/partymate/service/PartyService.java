@@ -1,5 +1,6 @@
 package com.example.partymate.service;
 
+import com.example.partymate.model.Party;
 import static com.example.partymate.model.Party.toParty;
 
 import com.example.partymate.dto.PartySaveRequestDto;
@@ -15,10 +16,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PartyService {
     private final PartyRepository partyRepository;
-    private final MemberService memberService;
-    private final PostService postService;
 
-    public void saveParty(PartySaveRequestDto partySaveRequestDto) {
-        partyRepository.save(toParty(partySaveRequestDto));
+    public Party saveParty(PartySaveRequestDto partySaveRequestDto) {
+        return partyRepository.save(toParty(partySaveRequestDto));
     }
 }
